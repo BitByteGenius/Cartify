@@ -1,6 +1,6 @@
 import 'package:cartify/common/styles/spacing_styles.dart';
-import 'package:cartify/common/widget.login_signup.dart/form_divider.dart';
-import 'package:cartify/common/widget.login_signup.dart/social_buttons.dart';
+import 'package:cartify/common/widgets/form_divider.dart';
+import 'package:cartify/common/widgets/social_buttons.dart';
 import 'package:cartify/features/authentication/screens/login/widgets/login_form.dart';
 import 'package:cartify/features/authentication/screens/login/widgets/login_header.dart';
 import 'package:cartify/utils/constants/sizes.dart';

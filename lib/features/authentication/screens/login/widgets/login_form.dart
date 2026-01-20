@@ -1,4 +1,5 @@
 
+import 'package:cartify/features/authentication/screens/password_configuration/forget_password.dart';
 import 'package:cartify/features/authentication/screens/signup/signup.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
@@ -51,7 +52,7 @@ class TLoginForm extends StatelessWidget {
                 ),
         
                 //Forget password
-                TextButton(onPressed: () {}, child: const Text(TTexts.forgetPassword)),
+                TextButton(onPressed: () => Get.to(() => const ForgetPassword()), child: const Text(TTexts.forgetPassword)),
               ],
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
