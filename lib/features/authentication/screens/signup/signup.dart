@@ -1,6 +1,6 @@
 import 'package:cartify/common/widget.login_signup.dart/form_divider.dart';
 import 'package:cartify/common/widget.login_signup.dart/social_buttons.dart';
-import 'package:cartify/features/authentication/screens/signup_widgets/signup_form.dart';
+import 'package:cartify/features/authentication/screens/signup/widgets/signup_form.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';

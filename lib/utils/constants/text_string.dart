@@ -28,6 +28,7 @@ class TTexts {
   static const String rememberMe = "Remember Me";
   static const String forgetPassword = "Forgot Password?";
   static const String signIn = "Sign In";
+  static const String tcontinue = "Continue";
   static const String createAccount = "Create Account";
   static const String orSignUpWith = "or sign up with";
   static const String orSignInWith = "or sign in with";

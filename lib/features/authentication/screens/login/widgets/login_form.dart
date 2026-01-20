@@ -1,5 +1,5 @@
 
-import 'package:cartify/features/authentication/screens/signup_widgets/signup.dart';
+import 'package:cartify/features/authentication/screens/signup/signup.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,12 @@
 
-import 'package:cartify/features/authentication/screens/signup_widgets/terms_conditions_checkbox.dart';
+import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
+import 'package:cartify/features/authentication/screens/signup/widgets/terms_conditions_checkbox.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:get/get.dart';
+
 
 class TSignupForm extends StatelessWidget {
   const TSignupForm({
@@ -82,7 +85,7 @@ class TSignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceBtwSections),
           //sign up Button
            SizedBox(width: double.infinity, child:
-           ElevatedButton(onPressed: (){}, child: const Text(TTexts.createAccount)),
+           ElevatedButton(onPressed: () => Get.to (() => const VerifyEmailScreen()), child: const Text(TTexts.createAccount)),
           ),
         ],
       ),
