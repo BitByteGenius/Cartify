@@ -1,6 +1,7 @@
 
 import 'package:cartify/features/authentication/screens/password_configuration/forget_password.dart';
 import 'package:cartify/features/authentication/screens/signup/signup.dart';
+import 'package:cartify/navigation_menu.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class TLoginForm extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections),
         
             //sign In Button
-            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: (){}, child: const Text(TTexts.signIn))),
+            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: () => Get.to(() => const NavigationMenu()), child: const Text(TTexts.signIn))),
             const SizedBox(height: TSizes.spaceBtwItems),
             //Create Account Button 
             SizedBox(width: double.infinity, child: OutlinedButton(onPressed: () => Get.to(() => const SignupScreen()), child: const Text(TTexts.createAccount))),
