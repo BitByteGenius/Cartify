@@ -43,6 +43,7 @@ dependencies:
   phone_numbers_parser: ^9.0.0
   flutter_native_splash: ^2.4.7
   smooth_page_indicator: ^1.1.0
+  carousel_slider: ^5.1.1
 
   # State Management package---
   get: ^4.7.3
@@ -69,8 +70,12 @@ flutter:
   assets:
     - assets/images/
     - assets/logos/
-    - assets\images\on_boarding_images/
-    - assets\images\animations/
+    - assets/images/on_boarding_images/
+    - assets/images/animations/
+    - assets/icons/categories/
+    - assets/images/banners/
+    - assets/images/products/
+
 
   fonts:
     - family: Poppins

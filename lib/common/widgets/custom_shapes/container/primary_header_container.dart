@@ -21,6 +21,7 @@ class TPrimaryHeaderContainer extends StatelessWidget {
           // if [size.isFinite: is not true in stack] e
           child: Stack(
             children: [
+             child,
               // Background Custom Shapes
               Positioned(
                 top: -150,

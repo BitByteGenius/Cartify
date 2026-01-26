@@ -1,5 +1,5 @@
-import 'package:cartify/common/widgets/form_divider.dart';
-import 'package:cartify/common/widgets/social_buttons.dart';
+import 'package:cartify/common/widgets/login_singup/form_divider.dart';
+import 'package:cartify/common/widgets/login_singup/social_buttons.dart';
 import 'package:cartify/features/authentication/screens/signup/widgets/signup_form.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
