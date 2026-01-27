@@ -16,14 +16,15 @@ class TSectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Popular Categories',
+          title,
           style: Theme.of(context).textTheme.headlineSmall!.apply(color: textColor),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-       if (showActionButton) TextButton(onPressed: onPressed, child: const Text('buttonTitle'))
+       if (showActionButton) TextButton(onPressed: onPressed, child: const Text('View all'))
       ],
     );
   }

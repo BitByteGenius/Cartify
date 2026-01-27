@@ -30,16 +30,17 @@ class HomeScreen extends StatelessWidget {
                   TSearchContainer(text: 'Search in store'),
                   SizedBox(height: TSizes.spaceBtwSections),
 
+                  
+
                   //-------CAtegories------
                   Padding(
                     padding: const EdgeInsets.only(left: TSizes.defaultSpace),
                     child: Column(
                       children: [
                         //Heading---------------
-                        const TSectionHeading(
+                        TSectionHeading(
                           title: 'Popular Categories',
-                          showActionButton: false,
-                          textColor: Colors.white,
+                          showActionButton: false, textColor: Colors.white,
                         ),
                         const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -65,9 +66,15 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: TSizes.spaceBtwSections),
+
+                  // Heading-----
+                  TSectionHeading(title: 'Popular Products', onPressed: () {} ),
+                  SizedBox(height: TSizes.spaceBtwItems),
+
                   //---------Popular Products----------
                   TGridLayout( itemCount: 2, itemBuilder: (_, index) => const
-                  TProductCardVertical()),
+                  TProductCardVertical()
+                  ),
                 ],
               ),
             ),

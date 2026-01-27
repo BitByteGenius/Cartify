@@ -1,4 +1,5 @@
 import 'package:cartify/features/shop/screens/home/widgets/home.dart';
+import 'package:cartify/features/shop/screens/store/store.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    Container(color: Colors.purple),
+    const StoreScreen(),
     Container(color: Colors.orange),
     Container(color: Colors.blue),
   ];

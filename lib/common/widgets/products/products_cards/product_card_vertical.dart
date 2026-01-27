@@ -2,8 +2,9 @@ import 'package:cartify/common/styles/shadows.dart';
 import 'package:cartify/common/widgets/icons/t_circular_icon.dart';
 import 'package:cartify/common/widgets/image_text_widgets/product_price_text.dart';
 import 'package:cartify/common/widgets/rounded_container.dart';
-import 'package:cartify/common/widgets/t_rounded_image.dart';
+import 'package:cartify/common/widgets/images/t_rounded_image.dart';
 import 'package:cartify/common/widgets/texts/product_title_text.dart';
+import 'package:cartify/common/widgets/texts/t_brand_title_text_with_verified_icon.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
@@ -69,18 +70,19 @@ class TProductCardVertical extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  TProductTitleText(title: 'Green Nike Air Shoes', smallSize: true),
-                  SizedBox(height: TSizes.spaceBtwItems / 2),
-                  Row(
-                    children: [
-                      Text(
-                        'Nike', overflow: TextOverflow.ellipsis,maxLines: 1, style: Theme.of(context).textTheme.labelMedium
-                      ),
-                      const SizedBox(width: TSizes.xs),
-                      const Icon(Iconsax.verify5, color: TColors.primary, size: TSizes.iconXs),
-                    ],
+                  const TProductTitleText(title: 'Green Nike Air Shoes', smallSize: true),
+                  const SizedBox(height: TSizes.spaceBtwItems / 2),
+                  TBrandTitleWithVerifiedIcon(
+                    title: 'Nike'
                   ),
-      
+              ],
+            ),
+            ),
+
+             // Todo: Add Spacer () here to keep the height of each Box same in case 1 or 2 lines of headings
+
+              const Spacer(),
+                   //Price Row-----
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -103,9 +105,6 @@ class TProductCardVertical extends StatelessWidget {
                        ),
                     ],
                   )
-              ],
-            ),
-            ),
           ],
         ),
       ),

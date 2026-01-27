@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cartify/common/widgets/custom_shapes/container/circular_container.dart';
-import 'package:cartify/common/widgets/t_rounded_image.dart';
+import 'package:cartify/common/widgets/images/t_rounded_image.dart';
 import 'package:cartify/features/shop/controllers/home_controller.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';

@@ -8,18 +8,23 @@ import 'package:iconsax/iconsax.dart';
 class TSearchContainer extends StatelessWidget {
   const TSearchContainer({
     super.key,
-    required this.text, this.icon = Iconsax.search_normal, this.showBackground = true, this.showBorder = true,
-    });
+    required this.text,
+    this.icon = Iconsax.search_normal,
+    this.showBackground = true,
+    this.showBorder = true,
+    this.padding = const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+  });
 
   final String text;
   final IconData? icon;
   final bool showBackground, showBorder;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+      padding: padding,
       child: Container(
         width: TDeviceUtils.getScreenWidth(),
         padding: const EdgeInsets.all(TSizes.md),
@@ -30,7 +35,7 @@ class TSearchContainer extends StatelessWidget {
                     : TColors.light
               : Colors.transparent,
           borderRadius: BorderRadius.circular(TSizes.cardRadiusLg),
-          border: showBorder ? Border.all(color: TColors.grey): null
+          border: showBorder ? Border.all(color: TColors.grey) : null,
         ),
         child: Row(
           children: [
