@@ -18,7 +18,7 @@ class TRoundedImage extends StatelessWidget {
   });
 
   final double? width, height;
-  final borderRadius;
+  final double borderRadius;
   final String imageUrl;
   final bool applyImageRadius;
   final BoxBorder? border;

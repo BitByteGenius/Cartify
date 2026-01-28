@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 
 class TGridLayout extends StatelessWidget {
   const TGridLayout({
-    super.key,
-    required this.itemCount,
-    required this.itemBuilder,
-    this.mainAxisExtent = 288,
-    });
+    super.key, required this.itemCount, required this.itemBuilder, this.mainAxisExtent = 288
+  });
 
   final int itemCount;
   final double? mainAxisExtent;
@@ -22,9 +19,9 @@ class TGridLayout extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
+        mainAxisExtent: mainAxisExtent,
         mainAxisSpacing: TSizes.gridViewSpacing,
         crossAxisSpacing: TSizes.gridViewSpacing,
-        mainAxisExtent: mainAxisExtent,
       ),
       itemBuilder: itemBuilder,
     );
