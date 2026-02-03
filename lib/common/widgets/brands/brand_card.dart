@@ -20,7 +20,7 @@ class TBrandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final isDarkMode = THelperFunction.isDarkMode(context);
+  //final isDarkMode = THelperFunction.isDarkMode(context);
 
     return GestureDetector(
       onTap: onTap,

@@ -1,5 +1,7 @@
+import 'package:cartify/features/personalization/screens/settings/settings.dart';
 import 'package:cartify/features/shop/screens/home/widgets/home.dart';
 import 'package:cartify/features/shop/screens/store/store.dart';
+import 'package:cartify/features/shop/screens/wishlist/wishlist.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const StoreScreen(),
-    Container(color: Colors.orange),
-    Container(color: Colors.blue),
+    const FavouriteScreen(),
+    const SettingsScreen(),
   ];
 }

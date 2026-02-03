@@ -88,5 +88,7 @@ class TImage {
   static const String productImage29 = "";
   static const String productImage30 = "";
 
+  //User Images
+  static const String user = "assets/images/user/user.png";
   
 }

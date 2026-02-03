@@ -9,7 +9,7 @@ class TCircularIcon extends StatelessWidget {
   this.width,
   this.height,
   this.size = TSizes.lg,
-  this.onprssed,
+   this.onPressed,
   this.color,
   this.backgroundColor,
   });
@@ -18,21 +18,23 @@ class TCircularIcon extends StatelessWidget {
   final IconData icon;
   final Color? color;
   final Color? backgroundColor;
-  final VoidCallback? onprssed;
+  final VoidCallback? onPressed;
 
-  @override
+
+ @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
         color: backgroundColor != null
-        ? backgroundColor!
-        :THelperFunction.isDarkMode(context)
-            ? TColors.black.withOpacity(0.9)
-            : TColors.white.withOpacity(0.9),
+            ? backgroundColor!
+            : THelperFunction.isDarkMode(context)
+                ? TColors.black.withValues(alpha: 0.9)
+                : TColors.white.withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(100),
       ),
-      child: IconButton(onPressed: onprssed, icon: Icon(icon, color:color, size: size,)),
+      child: IconButton(onPressed: onPressed, icon: Icon(icon, color: color, size: size)),
     );
   }
 }

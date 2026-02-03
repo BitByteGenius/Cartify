@@ -19,6 +19,9 @@ class TColors {
     ],
   );
 
+  // Dashboard Specific Colors
+  static const Color dashboardAppbarBackground = Color(0xFF4b68ff);
+
   // Text Colors
   static const Color textPrimary = Color(0xFF333333);
   static const Color textSecondary = Color(0xFF6C7570);
