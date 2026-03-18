@@ -58,30 +58,53 @@ class TImage {
 
   //Products
   static const String productImage1 = "assets/images/products/nike-shoes.png";
-  static const String productImage2 = "assets/images/products/leather_jacket_1.png";
-  static const String productImage3 = "assets/images/products/leather_jacket_2.png";
-  static const String productImage4 = "assets/images/products/leather_jacket_4.png";
-  static const String productImage5 = "assets/images/products/NikeAirJOrdonBlackRed.png";
-  static const String productImage6 = "assets/images/products/NikeAirJOrdonOrange.png";
-  static const String productImage7 = "assets/images/products/NikeAirJordonSingleBlue.png";
-  static const String productImage8 = "assets/images/products/NikeAirJordonSingleOrange.png";
-  static const String productImage9 = "assets/images/products/NikeAirJordonwhiteMagenta.png";
-  static const String productImage10 = "assets/images/products/NikeAirJOrdonWhiteRed.png";
+  static const String productImage2 =
+      "assets/images/products/leather_jacket_1.png";
+  static const String productImage3 =
+      "assets/images/products/leather_jacket_2.png";
+  static const String productImage4 =
+      "assets/images/products/leather_jacket_4.png";
+  static const String productImage5 =
+      "assets/images/products/NikeAirJOrdonBlackRed.png";
+  static const String productImage6 =
+      "assets/images/products/NikeAirJOrdonOrange.png";
+  static const String productImage7 =
+      "assets/images/products/NikeAirJordonSingleBlue.png";
+  static const String productImage8 =
+      "assets/images/products/NikeAirJordonSingleOrange.png";
+  static const String productImage9 =
+      "assets/images/products/NikeAirJordonwhiteMagenta.png";
+  static const String productImage10 =
+      "assets/images/products/NikeAirJOrdonWhiteRed.png";
   static const String productImage11 = "assets/images/products/NikeAirMax.png";
-  static const String productImage12 = "assets/images/products/NikeBasketballShoeGreenBlack.png";
-  static const String productImage13 = "assets/images/products/NikeBasketballShoeGreenBlack.png";
-  static const String productImage14 = "assets/images/products/NikeWildhorse.png";
-  static const String productImage15 = "assets/images/products/product-shirt.png";
-  static const String productImage16 = "assets/images/products/samsung_s9_mobile_back.png";
-  static const String productImage17 = "assets/images/products/samsung_s9_mobile_withback.png";
-  static const String productImage18 = "assets/images/products/samsung_s9_mobile.png";
-  static const String productImage19 = "assets/images/products/tomi_dogfood.png";
-  static const String productImage20 = "assets/images/products/tshirt_blue_collar.png";
-  static const String productImage21 = "assets/images/products/tshirt_blue_without_collar_back.png";
-  static const String productImage22 = "assets/images/products/tshirt_blue_without_collar_front.png";
-  static const String productImage23 = "assets/images/products/tshirt_green_collar.png";
-  static const String productImage24 = "assets/images/products/tshirt_red_collar.png";
-  static const String productImage25 = "assets/images/products/tshirt_yellow_collar.png";
+  static const String productImage12 =
+      "assets/images/products/NikeBasketballShoeGreenBlack.png";
+  static const String productImage13 =
+      "assets/images/products/NikeBasketballShoeGreenBlack.png";
+  static const String productImage14 =
+      "assets/images/products/NikeWildhorse.png";
+  static const String productImage15 =
+      "assets/images/products/product-shirt.png";
+  static const String productImage16 =
+      "assets/images/products/samsung_s9_mobile_back.png";
+  static const String productImage17 =
+      "assets/images/products/samsung_s9_mobile_withback.png";
+  static const String productImage18 =
+      "assets/images/products/samsung_s9_mobile.png";
+  static const String productImage19 =
+      "assets/images/products/tomi_dogfood.png";
+  static const String productImage20 =
+      "assets/images/products/tshirt_blue_collar.png";
+  static const String productImage21 =
+      "assets/images/products/tshirt_blue_without_collar_back.png";
+  static const String productImage22 =
+      "assets/images/products/tshirt_blue_without_collar_front.png";
+  static const String productImage23 =
+      "assets/images/products/tshirt_green_collar.png";
+  static const String productImage24 =
+      "assets/images/products/tshirt_red_collar.png";
+  static const String productImage25 =
+      "assets/images/products/tshirt_yellow_collar.png";
   static const String productImage26 = "";
   static const String productImage27 = "";
   static const String productImage28 = "";
@@ -90,5 +113,21 @@ class TImage {
 
   //User Images
   static const String user = "assets/images/user/user.png";
-  
+
+  //---Product Reviews----
+  static const String userProfieImage1 = "assets/images/reviews/undraw_deep-thinker-avatar_6xg6.png";
+  static const String userProfieImage2 = "assets/images/reviews/undraw_shy-guy-avatar_094a.png";
+  static const String userProfieImage3 = "assets/images/reviews/undraw_young-man-avatar_wgbd.png";
+
+  //----- Payment Methods----
+
+  static const String applePay = "assets/icons/payment_methods/apple-pay.png";
+  static const String googlePay = "assets/icons/payment_methods/google-pay.png";
+  static const String creditCard = "assets/icons/payment_methods/credit-card.png";
+  static const String masterCard = "assets/icons/payment_methods/master-card.png";
+  static const String paypal = "assets/icons/payment_methods/paypal.png";
+  static const String visa = "assets/icons/payment_methods/visa.png";
+  static const String paystack = "assets/icons/payment_methods/paystack.png";
+  static const String paytm = "assets/icons/payment_methods/paytm.png";
+  static const String successfulPaymentIcon = "assets/icons/payment_methods/successful_payment_icon.png";
 }

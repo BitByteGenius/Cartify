@@ -3,7 +3,9 @@ import 'package:cartify/common/widgets/custom_shapes/container/primary_header_co
 import 'package:cartify/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:cartify/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:cartify/common/widgets/texts/section_heading.dart';
+import 'package:cartify/features/personalization/screens/address/widgets/address.dart';
 import 'package:cartify/features/personalization/screens/profile/widgets/profile.dart';
+import 'package:cartify/features/shop/screens/order/order.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +64,7 @@ class SettingsScreen extends StatelessWidget {
               icon: Iconsax.safe_home,
               title: 'My Addresses',
               subTittle: 'Set shopping delivery address',
+               onTap: () => Get.to(() => const UserAddressScreen()),
             ),
 
             const TSettingsMenuTile(
@@ -70,10 +73,11 @@ class SettingsScreen extends StatelessWidget {
               subTittle: 'Add, remove product and move to checkout',
             ),
 
-            const TSettingsMenuTile(
+            TSettingsMenuTile(
               icon: Iconsax.bag_tick,
               title: 'My Orders',
               subTittle: 'View your order history',
+              onTap: () => Get.to(() => const OrderScreen()),
             ),
 
             const TSettingsMenuTile(
@@ -114,6 +118,7 @@ class SettingsScreen extends StatelessWidget {
               icon: Iconsax.document_upload,
               title: 'Load Data',
               subTittle: 'Upload data from server',
+              onTap: () => Get.to(() => const UserAddressScreen()),
             ),
 
             TSettingsMenuTile(

@@ -1,6 +1,8 @@
+import 'package:cartify/features/shop/screens/Cart/cart.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TCartCounterIcon extends StatelessWidget {
@@ -19,7 +21,7 @@ class TCartCounterIcon extends StatelessWidget {
     return Stack(
       children: [
         IconButton(
-          onPressed: onPressed,
+          onPressed: () => Get.to(() => const CartScreen()),
           icon: Icon(Iconsax.shopping_bag, 
           color: dark ? TColors.white : TColors.black,
           //color: TColors.white

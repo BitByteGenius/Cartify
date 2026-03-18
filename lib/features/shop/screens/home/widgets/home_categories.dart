@@ -1,6 +1,8 @@
 import 'package:cartify/common/widgets/image_text_widgets/vertical_image_text.dart';
+import 'package:cartify/features/shop/screens/sub_category/sub_categories.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 class THomeCategories extends StatelessWidget {
   const THomeCategories({
     super.key,
@@ -18,7 +20,7 @@ class THomeCategories extends StatelessWidget {
           return TVerticaImageText(
             image: TImage.shoeIcon,
             title: 'Shoes',
-            onTap: () {},
+            onTap: () => Get.to (() =>const SubCategoriesScreen()),
           );
         },
       ),

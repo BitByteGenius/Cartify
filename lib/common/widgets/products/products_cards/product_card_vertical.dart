@@ -5,11 +5,13 @@ import 'package:cartify/common/widgets/rounded_container.dart';
 import 'package:cartify/common/widgets/images/t_rounded_image.dart';
 import 'package:cartify/common/widgets/texts/product_title_text.dart';
 import 'package:cartify/common/widgets/texts/t_brand_title_text_with_verified_icon.dart';
+import 'package:cartify/features/shop/screens/product%20_details/product_detail.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TProductCardVertical extends StatelessWidget {
@@ -20,7 +22,7 @@ class TProductCardVertical extends StatelessWidget {
     final dark = THelperFunction.isDarkMode(context);
     // container with side padding, color, edge, radius and shadow
     return GestureDetector(
-      onTap: () {},
+      onTap: () =>  Get.to(() => const ProductDetailScreen()),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
