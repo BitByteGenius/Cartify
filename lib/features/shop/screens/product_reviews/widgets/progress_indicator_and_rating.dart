@@ -20,7 +20,7 @@ class TRatingProgressIndicator extends StatelessWidget {
         Expanded(
           flex: 11,
           child: SizedBox(
-            width: TDeviceUtils.getScreenWidth(context) * 0.8,
+            width: TDeviceUtils.getScreenWidth() * 0.8,
             child: LinearProgressIndicator(
               value: value,
               minHeight: 11,

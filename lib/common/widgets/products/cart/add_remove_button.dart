@@ -26,13 +26,14 @@ class TProductQualityWithAddRemoveButton extends StatelessWidget {
     Text('2', style: Theme.of(context).textTheme.titleSmall),
     const SizedBox(width: TSizes.spaceBtwItems,),
     
-    TCircularIcon(icon: Iconsax.minus,
+    TCircularIcon(icon: Iconsax.add,
     width: 32,
     height: 32,
     size: TSizes.md,
     color:  TColors.white ,
     backgroundColor:  TColors.primary,
     ),
+    const SizedBox(width: TSizes.spaceBtwItems),
       ],
                 );
   }

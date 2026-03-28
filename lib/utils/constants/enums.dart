@@ -6,7 +6,7 @@ enum TextSizes {
   large,
 }
 
-enum orderStatus {
+enum OrderStatus {
   pending,
   processing,
   shipped,

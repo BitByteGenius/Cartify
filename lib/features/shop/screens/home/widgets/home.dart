@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: TSizes.spaceBtwItems),
 
                   //---------Popular product----------
-                  TGridLayout( itemCount: 2, itemBuilder: (_, index) => const
+                  TGridLayout( itemCount: 10, itemBuilder: (_, index) => const
                   TProductCardVertical()
                   ),
                 ],

@@ -66,6 +66,7 @@ class TProductMetaData extends StatelessWidget {
               overlayColor: darkMode ? TColors.white : TColors.black,
             ),
             TBrandTitleWithVerifiedIcon(title: 'Nike', brandTextSize: TextSizes.medium),
+            
           ],
         ),
       ]

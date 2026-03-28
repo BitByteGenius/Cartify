@@ -19,6 +19,7 @@ class CartScreen extends StatelessWidget {
       //-----Cart items----
       child: TCartItems(),
        ),
+       
 
        //--- Checkout Button----
 

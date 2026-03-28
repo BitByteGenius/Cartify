@@ -13,7 +13,7 @@ class TCartItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
-      separatorBuilder: (_, __) =>
+      separatorBuilder: (_, _) =>
           const SizedBox(height: TSizes.spaceBtwSections),
       itemCount: 5,
       itemBuilder: (_, index) => Column(
@@ -32,8 +32,10 @@ class TCartItems extends StatelessWidget {
                 children: [
                   SizedBox(width: 70),
                   TProductQualityWithAddRemoveButton(),
+                  
                 ],
               ),
+              
               TProductPriceText(price: '256'),
             ],
           ),

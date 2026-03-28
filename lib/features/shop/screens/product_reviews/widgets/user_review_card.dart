@@ -23,7 +23,7 @@ class UserReviewCard extends StatelessWidget {
 
                 const CircleAvatar(backgroundImage: AssetImage(TImage.userProfieImage1)),
                 const SizedBox(width: TSizes.spaceBtwItems),
-                Text('John Doe', style: Theme.of(context).textTheme.titleLarge),
+                Text('Rahul Singh', style: Theme.of(context).textTheme.titleLarge),
               ],
             ),
             IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
@@ -37,8 +37,11 @@ class UserReviewCard extends StatelessWidget {
             Text('01 Nov, 2023', style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
+
         const SizedBox(height: TSizes.spaceBtwItems),
-        ReadMoreText('The user interface of the app is quit intuitive. I was able to nevigate and make purchases seamlessly. Great job!',
+
+        ReadMoreText(
+          'The user interface of the app is quit intuitive. I was able to nevigate and make purchases seamlessly. Great job!',
         trimLines: 1,
         trimMode: TrimMode.Line,
         trimExpandedText: 'Show less',
@@ -50,7 +53,7 @@ class UserReviewCard extends StatelessWidget {
         
         //--Company Reviews-----
         TRoundedContainer(
-          backgroundColor: dark ? TColors.darkerGrey: TColors.grey,
+          backgroundColor: dark ? TColors.darkerGrey: TColors.light,
           child: Padding(padding: const EdgeInsets.all(TSizes.md),
           child: Column(
             children: [
@@ -62,6 +65,7 @@ class UserReviewCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: TSizes.spaceBtwItems),
+              
         ReadMoreText('The user interface of the app is quit intuitive. I was able to nevigate and make purchases seamlessly. Great job!',
         trimLines: 1,
         trimMode: TrimMode.Line,

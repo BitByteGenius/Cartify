@@ -1,58 +1,61 @@
+import 'package:cartify/common/widgets/icons/t_circular_icon.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-class TBottomAddToCart extends StatelessWidget {
-  const TBottomAddToCart({
-    super.key,
-    required this.product,
-  });
 
-  final ProductModel product;
+class TBottonAddToCart extends StatelessWidget {
+  const TBottonAddToCart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final productController = ProductController.instance;
-    productController.initializeAlreadyAddedProductCount(product);
     final dark = THelperFunction.isDarkMode(context);
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace, vertical: TSizes.defaultSpace / 2),
+      padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace, vertical: TSizes.defaultSpace /2),
       decoration: BoxDecoration(
-        color: dark ? TColors.darkerGrey : TColors.white,
+        color: dark? TColors.darkerGrey : TColors.light,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(TSizes.cardRadiusLg),
           topRight: Radius.circular(TSizes.cardRadiusLg),
-        ),
+        )
       ),
-      child: Obx(
-        () => Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Add OR Remove Cart Product Icon Buttons
-            TProductQuantityWithAddRemoveButton(
-              quantity: productController.cartQuantity.value,
-              add: () => productController.cartQuantity.value += 1,
-              // Disable remove when cart count is less then 1
-              remove: () => productController.cartQuantity.value < 1 ? null : productController.cartQuantity.value -= 1,
-            ),
-            // Add to cart button
-            ElevatedButton(
-              onPressed:
-                  productController.cartQuantity.value < 1 ? null : () => productController.addProductToCart(product),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(TSizes.md),
-                backgroundColor: TColors.black,
-                side: const BorderSide(color: TColors.black),
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              const TCircularIcon(
+              icon: Iconsax.minus,
+              backgroundColor: TColors.darkGrey,
+              width: 40,
+              height: 40,
+              color: TColors.white,
               ),
-              child: const Row(
-                children: [Icon(Iconsax.shopping_bag), SizedBox(width: TSizes.spaceBtwItems / 2), Text('Add to Bag')],
+              const SizedBox(width: TSizes.spaceBtwItems),
+              Text('2', style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(width: TSizes.spaceBtwItems),
+
+              const TCircularIcon(
+              icon: Iconsax.add,
+              backgroundColor: TColors.black,
+              width: 40,
+              height: 40,
+              color: TColors.white,
               ),
-            ),
-          ],
+            ],
+          ),
+            //----- Add to cart------
+        ElevatedButton(onPressed: (){},
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(TSizes.md),
+          disabledBackgroundColor: TColors.black,
+          side: const BorderSide(color: TColors.black),
         ),
+        child: const Text('Add to cart'),
+         ),
+        ],
       ),
     );
   }
