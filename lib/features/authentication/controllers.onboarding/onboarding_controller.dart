@@ -1,6 +1,8 @@
 import 'package:cartify/features/authentication/screens/login/login.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OnBoardingController extends GetxController {
   static OnBoardingController get instance => Get.find();
@@ -12,7 +14,6 @@ class OnBoardingController extends GetxController {
   // Update Current Index when page Scroll
   void updatePageIndicator(index) => currentPageIndex.value = index;
 
-
   // Jump to the specific dot selected page.
   void dotNavigationClick(index) {
     currentPageIndex.value = index;
@@ -22,7 +23,13 @@ class OnBoardingController extends GetxController {
   // Update Current Index & jump to next Page
   void nextPage() {
     if (currentPageIndex.value == 2) {
-       Get.offAll (LoginScreen());
+      final storage = GetStorage();
+       if (kDebugMode) {
+      print('============GetStorage===============');
+      print(storage.read('IsFirstTime'));
+    }
+      storage.write('IsFirstTime', false);
+      Get.offAll(LoginScreen());
     } else {
       int page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);

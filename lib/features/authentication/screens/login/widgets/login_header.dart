@@ -11,13 +11,13 @@ class TLoginHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunction.isDarkMode(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image(
-          height: 150,
+          height: 250,
+          width: 250,
           image: AssetImage(dark ? TImage.darkAppLogo : TImage.lightAppLogo),
         ),
-
         Text(
           TTexts.loginTitle,
           style: Theme.of(context).textTheme.headlineMedium,

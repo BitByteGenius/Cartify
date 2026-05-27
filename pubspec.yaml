@@ -43,6 +43,8 @@ dependencies:
   phone_numbers_parser: ^9.0.0
   flutter_native_splash: ^2.4.7
   smooth_page_indicator: ^2.0.1
+  lottie: ^3.3.3
+  connectivity_plus: ^7.1.1
 
   #Product specific----
   readmore: ^3.0.0
@@ -53,6 +55,9 @@ dependencies:
   # State Management package---
   get: ^4.7.3
   get_storage: ^2.1.1
+
+  # Firebase packages---
+  firebase_core: ^4.6.0
 
 dev_dependencies:
   flutter_test:

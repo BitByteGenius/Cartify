@@ -19,6 +19,9 @@ class TColors {
     ],
   );
 
+  // App surface color
+  static const Color appSurface =Color(0xFF4A6CF7);
+
   // Dashboard Specific Colors
   static const Color dashboardAppbarBackground = Color(0xFF4b68ff);
 

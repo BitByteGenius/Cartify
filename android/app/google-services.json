@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "529127507002",
+    "firebase_url": "https://hastkala-39a7d-default-rtdb.firebaseio.com",
+    "project_id": "hastkala-39a7d",
+    "storage_bucket": "hastkala-39a7d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529127507002:android:2b3f507fe5da298694a103",
+        "android_client_info": {
+          "package_name": "com.example.cartify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529127507002-5asf5be60p3qvhpnlmcoas4kkm7bpphf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cartify",
+            "certificate_hash": "0c848998d1c14bc24a91a45a9231b87d28b8b9b0"
+          }
+        },
+        {
+          "client_id": "529127507002-ablj9umrncrd1si12oibgc69ekv0osns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP4vYMizAAbEcTNPx0tMLPNPwO-qlK0yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529127507002-ablj9umrncrd1si12oibgc69ekv0osns.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "529127507002-pv9v7ul7iuqfqki1h48vcmrja6m18ftl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cartify"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

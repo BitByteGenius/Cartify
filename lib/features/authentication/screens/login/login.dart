@@ -3,6 +3,7 @@ import 'package:cartify/common/widgets/login_singup/form_divider.dart';
 import 'package:cartify/common/widgets/login_singup/social_buttons.dart';
 import 'package:cartify/features/authentication/screens/login/widgets/login_form.dart';
 import 'package:cartify/features/authentication/screens/login/widgets/login_header.dart';
+import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor:  TColors.appSurface,
       body: SingleChildScrollView(
         child: Padding(
           padding: TSpacingStyles.paddingWithAppBarHeight,
@@ -24,8 +27,9 @@ class LoginScreen extends StatelessWidget {
               //Form
               TLoginForm(),
               // Divider
+              const SizedBox(height: TSizes.sm),
               TFormDivider(dividerText: TTexts.orSignInWith.capitalize!),
-              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(height: TSizes.sm),
               //Footer
               TSocialButtons()
             ],

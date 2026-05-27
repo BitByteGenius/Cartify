@@ -1,28 +1,28 @@
-
-import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
+import 'package:cartify/features/authentication/controllers.onboarding/signup/signup_controller.dart';
 import 'package:cartify/features/authentication/screens/signup/widgets/terms_conditions_checkbox.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
+import 'package:cartify/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
 
-
 class TSignupForm extends StatelessWidget {
-  const TSignupForm({
-    super.key,
-  });
-
+  const TSignupForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignupController());
     return Form(
+      key: controller.signupFormKey,
       child: Column(
         children: [
           Row(
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: controller.firstname,
+                  validator: (value) => TValidator.validationEmptyText(TTexts.firstName, value),
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.firstName,
@@ -33,6 +33,8 @@ class TSignupForm extends StatelessWidget {
               const SizedBox(width: TSizes.spaceBtwInputFields),
               Expanded(
                 child: TextFormField(
+                  controller: controller.lastName,
+                  validator: (value) => TValidator.validationEmptyText(TTexts.lastName, value),
                   expands: false,
                   decoration: const InputDecoration(
                     labelText: TTexts.lastName,
@@ -45,6 +47,8 @@ class TSignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceBtwInputFields),
           //User name
           TextFormField(
+            controller: controller.username,
+            validator: (value) => TValidator.validationEmptyText(TTexts.username, value),
             expands: false,
             decoration: const InputDecoration(
               labelText: TTexts.username,
@@ -54,6 +58,8 @@ class TSignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceBtwInputFields),
           //Emails
           TextFormField(
+            controller: controller.email,
+            validator: (value) => TValidator.validateEmail(value),
             expands: false,
             decoration: const InputDecoration(
               labelText: TTexts.email,
@@ -63,6 +69,8 @@ class TSignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceBtwInputFields),
           //Phone Number
           TextFormField(
+            controller: controller.phoneNumber,
+            validator: (value) => TValidator.validatePhoneNumber(value),
             expands: false,
             decoration: const InputDecoration(
               labelText: TTexts.phoneNo,
@@ -72,6 +80,8 @@ class TSignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceBtwInputFields),
           //password
           TextFormField(
+            controller: controller.password,
+            validator: (value) => TValidator.validatePassword( value),
             obscureText: true,
             decoration: const InputDecoration(
               labelText: TTexts.password,
@@ -84,12 +94,15 @@ class TSignupForm extends StatelessWidget {
           const TTermsAndConditionCheckbox(),
           const SizedBox(height: TSizes.spaceBtwSections),
           //sign up Button
-           SizedBox(width: double.infinity, child:
-           ElevatedButton(onPressed: () => Get.to (() => const VerifyEmailScreen()), child: const Text(TTexts.createAccount)),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => controller.signup(),
+              child: const Text(TTexts.createAccount),
+            ),
           ),
         ],
       ),
     );
   }
 }
-
