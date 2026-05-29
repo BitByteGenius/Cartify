@@ -1,7 +1,7 @@
 class TValidator {
 
   // Empty text validation
- static String? validationEmptyText(String? fieldName, String? value) {
+ static String? validationEmptyText(String fieldName, String? value) {
   if (value == null || value.trim().isEmpty) {
     return '$fieldName is required.';
   }
@@ -23,40 +23,40 @@ class TValidator {
   }
 
   static String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'password is required';
-    }
-    // check for minimum pasword length
-    if (value.length < 6) {
-      return 'password must be at least 6 characters long.';
-    }
-    //check for upper case
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'password must contain at least one uppercase letter';
-    }
-    // check for numbers
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'password must contain at least  one number.';
-    }
-
-    // Check for Special characters
-    if (!value.contains(RegExp(r'[!@$%^&*(),./:{}<>]'))) {
-      return 'password must contains at least one special characters.';
-    }
-    return null;
+  if (value == null || value.isEmpty) {
+    return 'Password is required';
   }
+
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters';
+  }
+
+  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    return 'Must include an uppercase letter';
+  }
+
+  if (!RegExp(r'[0-9]').hasMatch(value)) {
+    return 'Must include a number';
+  }
+
+  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return 'Must include a special character';
+  }
+
+  return null;
+}
 
   static String? validatePhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required.';
-    }
-
-    // Regular expression for phone number validation (assuming a 10 digit number)
-
-    final phoneRegExp = RegExp(r'^\d{10}$');
-    if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (10 digits required).';
-    }
-    return null;
+  if (value == null || value.isEmpty) {
+    return 'Phone number is required';
   }
+
+  final phoneRegExp = RegExp(r'^[6-9]\d{9}$'); // Indian numbers
+
+  if (!phoneRegExp.hasMatch(value)) {
+    return 'Enter a valid 10-digit phone number';
+  }
+
+  return null;
+}
 }

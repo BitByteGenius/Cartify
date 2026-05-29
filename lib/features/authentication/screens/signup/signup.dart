@@ -1,6 +1,7 @@
 import 'package:cartify/common/widgets/login_singup/form_divider.dart';
 import 'package:cartify/common/widgets/login_singup/social_buttons.dart';
 import 'package:cartify/features/authentication/screens/signup/widgets/signup_form.dart';
+import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: TColors.appSurface,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
