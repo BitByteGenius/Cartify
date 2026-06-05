@@ -30,7 +30,7 @@ class TFullScreenLoader {
 
   // stop the current loading dailog
   //This method doesn't return anything
-  static stopLoading() {
+  static void stopLoading() {
     Navigator.of(Get.overlayContext!).pop();
   }
 }

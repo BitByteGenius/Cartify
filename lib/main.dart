@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 //import 'package:get/get.dart';
 
 import 'app.dart';
@@ -18,6 +19,13 @@ Future<void> main() async {
 
   // Getx Local Storage
   await GetStorage.init();
+
+  // Initialize Hive for offline caching
+  await Hive.initFlutter();
+  await Hive.openBox('cart_box');
+  await Hive.openBox('wishlist_box');
+  await Hive.openBox('user_profile_box');
+  await Hive.openBox('products_cache_box');
 
   // Await Splash until other item load
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

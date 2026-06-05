@@ -63,7 +63,7 @@ class TAnimationLoaderWidget extends StatelessWidget {
 
   // stop the current open loading dialog
 
-  static stopLoading() {
+  static void stopLoading() {
     Navigator.of(Get.overlayContext!).pop();
   }
 }

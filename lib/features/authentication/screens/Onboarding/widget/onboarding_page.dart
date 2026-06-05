@@ -20,9 +20,9 @@ class OnBoardingPage extends StatelessWidget {
         children: [
           
           Image(
-            alignment: AlignmentGeometry.topCenter,
-            width: THelperFunction.screenHeight() * 0.8,
-            height: THelperFunction.screenWidth() * 0.6,
+            alignment: Alignment.center,
+            width: THelperFunction.screenWidth() * 0.8,
+            height: THelperFunction.screenHeight() * 0.4,
             image: AssetImage(image),
           ),
           Text(

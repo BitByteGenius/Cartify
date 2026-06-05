@@ -1,0 +1,42 @@
+name: admin_panel
+description: "A new Flutter project."
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  get: ^4.7.3
+
+  # Firebase
+  firebase_core: ^4.10.0
+  firebase_auth: ^6.5.2
+  cloud_firestore: ^6.5.0
+  firebase_storage: ^13.4.2
+  firebase_functions: ^0.6.0-dev.1
+
+  # UI
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.2.1
+  lottie: ^3.3.2
+  shimmer: ^3.0.0
+  responsive_framework: ^1.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

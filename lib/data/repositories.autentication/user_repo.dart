@@ -27,4 +27,17 @@ class UserRepo extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
+
+  // Fetch user details based on user ID
+  Future<UserModel?> getUserRecord(String userId) async {
+    try {
+      final documentSnapshot = await _db.collection("Users").doc(userId).get();
+      if (documentSnapshot.exists) {
+        return UserModel.fromSnapshot(documentSnapshot);
+      }
+      return null;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }

@@ -70,7 +70,7 @@ class SignupController extends GetxController {
       //======Save authenticate user data in the firebase firestore
       final newUser = UserModel(
         id: userCredential.user!.uid,
-        firstname: firstname.text.trim(),
+        firstName: firstname.text.trim(),
         lastName: lastName.text.trim(),
         username: username.text.trim(),
         email: email.text.trim(),
@@ -78,8 +78,8 @@ class SignupController extends GetxController {
         profilePicture: '',
       );
 
-      final UserRepo = Get.put(UserRepo());
-      await UserRepo.saveUserRecord(newUser);
+      final userRepo = Get.put(UserRepo());
+      await userRepo.saveUserRecord(newUser);
 
       //Remove loader
       TFullScreenLoader.stopLoading();

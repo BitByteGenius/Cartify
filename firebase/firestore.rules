@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper to check admin role (custom claim "admin")
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Users – owners can read/write their own document
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Products – read for any authenticated user, write only for admin
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if isAdmin();
+      // Example field validation on create
+      allow create: if isAdmin() &&
+        request.resource.data.title is string && request.resource.data.title.size() > 0 &&
+        request.resource.data.price is number &&
+        request.resource.data.inventory is int &&
+        request.resource.data.categoryId is string;
+    }
+
+    // Categories & sub‑categories – read for all, write for admin
+    match /categories/{catId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+    match /subcategories/{subId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Brands – same policy as categories
+    match /brands/{brandId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Orders – owners and admin can read/write
+    match /orders/{orderId} {
+      allow read, write: if request.auth != null && (
+        request.auth.uid == resource.data.userId || isAdmin()
+      );
+    }
+
+    // Carts – each user owns their cart
+    match /carts/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Wishlists – each user owns their wishlist
+    match /wishlists/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Reviews – anyone can read; only author or admin can modify
+    match /reviews/{reviewId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && (
+        request.auth.uid == resource.data.userId || isAdmin()
+      );
+    }
+
+    // Coupons – admin only for write, read for all auth users
+    match /coupons/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Banners – admin only for write, read for all auth users
+    match /banners/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Notifications – users can read their own, admin can write any
+    match /notifications/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if isAdmin();
+    }
+
+    // Settings – admin only
+    match /settings/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+  }
+}
