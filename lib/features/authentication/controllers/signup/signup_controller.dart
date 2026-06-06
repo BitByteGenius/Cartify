@@ -6,6 +6,7 @@ import 'package:cartify/features/authentication/models/usermodel.dart';
 import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/popups/full_screen_loader.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +26,7 @@ class SignupController extends GetxController {
       GlobalKey<FormState>(); //Form key for the validation
 
   //=====Signup===
-  void signup() async {
+  /*void signup() async {
     try {
       // Start Loading.............
       TFullScreenLoader.openLoadingDialog(
@@ -99,5 +100,89 @@ class SignupController extends GetxController {
       // Remove Loader
       TFullScreenLoader.stopLoading();
     }
+  }*/
+  void signup() async {
+  try {
+    // START LOADER
+    TFullScreenLoader.openLoadingDialog(
+      'Creating your account...',
+      TImage.darkAppLogo,
+    );
+
+    // INTERNET CHECK
+    final isConnected = await NetworkManager.instance.isConnected();
+    if (!isConnected) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.errorSnackBar(
+        title: 'No Internet',
+        message: 'Please check your connection',
+      );
+      return;
+    }
+
+    // FORM VALIDATION
+    if (!signupFormKey.currentState!.validate()) {
+      TFullScreenLoader.stopLoading();
+      return;
+    }
+
+    // PRIVACY CHECK
+    if (!privacyPolicy.value) {
+      TFullScreenLoader.stopLoading();
+      TLoaders.warningSnackBar(
+        title: 'Accept Privacy Policy',
+        message: 'You must accept Terms & Conditions',
+      );
+      return;
+    }
+
+    // CREATE USER (AUTH)
+    final userCredential = await AuthenticationRepo.instance
+        .registerWithEmailAndPassword(
+      email.text.trim(),
+      password.text.trim(),
+    );
+
+    final uid = userCredential.user!.uid;
+
+    // USER MODEL
+    final newUser = UserModel(
+      id: uid,
+      firstName: firstname.text.trim(),
+      lastName: lastName.text.trim(),
+      username: username.text.trim(),
+      email: email.text.trim(),
+      phoneNumber: phoneNumber.text.trim(),
+      profilePicture: '',
+    );
+
+    // SAVE TO FIRESTORE (IMPORTANT: AWAIT)
+    final userRepo = Get.put(UserRepo());
+    await userRepo.saveUserRecord(newUser);
+
+    // STOP LOADER
+    TFullScreenLoader.stopLoading();
+
+    // SUCCESS
+    TLoaders.successSnackBar(
+      title: 'Account Created',
+      message: 'Please verify your email to continue',
+    );
+
+    Get.to(() =>  VerifyEmailScreen(email: email.text.trim(),));
+
+  } on FirebaseAuthException catch (e) {
+    TFullScreenLoader.stopLoading();
+    TLoaders.errorSnackBar(
+      title: 'Auth Error',
+      message: e.message ?? e.code,
+    );
+  } catch (e) {
+    TFullScreenLoader.stopLoading();
+    TLoaders.errorSnackBar(
+      title: 'Error',
+      message: e.toString(),
+    );
   }
+}
 }

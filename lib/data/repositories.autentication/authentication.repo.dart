@@ -1,8 +1,10 @@
-import 'package:cartify/data/repositories.autentication/firebase_aut_execption.dart';
+import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
+import 'package:cartify/utils/exceptions/firebase_aut_execption.dart';
 import 'package:cartify/features/authentication/screens/Onboarding/onboarding.dart';
 import 'package:cartify/features/authentication/screens/login/login.dart';
 import 'package:cartify/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,44 +13,61 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthenticationRepo extends GetxController {
   static AuthenticationRepo get instance => Get.find();
 
-  // Storage
-  final deviceStorage = GetStorage();
-
-  // Firebase instance
+  final GetStorage deviceStorage = GetStorage();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
-  void onReady() {
-    FlutterNativeSplash.remove();
-    _auth.authStateChanges().listen(_setInitialScreen);
-    super.onReady();
-  }
+void onReady() {
+  FlutterNativeSplash.remove();
+  screenRedirect();
+  super.onReady();
+}
 
-  // -------------------------------
-  // ROUTING (PRODUCTION SAFE)
-  // -------------------------------
-  void _setInitialScreen(User? user) {
-    if (user != null) {
+ Future<void> screenRedirect() async {
+  final user = _auth.currentUser;
+
+  if (user != null) {
+    await user.reload();
+
+    if (user.emailVerified) {
       Get.offAll(() => const NavigationMenu());
-      return;
-    }
-
-    final bool isFirstTime =
-        deviceStorage.read('IsFirstTime') ?? true;
-
-    if (isFirstTime) {
-      deviceStorage.write('IsFirstTime', false);
-      Get.offAll(() => const OnboardingScreen());
     } else {
-      Get.offAll(() => const LoginScreen());
+      Get.offAll(
+        () => VerifyEmailScreen(
+          email: user.email,
+        ),
+      );
     }
+    return;
   }
 
+  deviceStorage.writeIfNull('IsFirstTime', true);
+
+  final bool isFirstTime =
+      deviceStorage.read('IsFirstTime') ?? true;
+
+  if (isFirstTime) {
+    await deviceStorage.write('IsFirstTime', false);
+    Get.offAll(() => const OnboardingScreen());
+  } else {
+    Get.offAll(() => const LoginScreen());
+  }
+}
+
+
   // -------------------------------
-  // EMAIL REGISTER
+  // ROUTING
+  // -------------------------------
+ 
+
+  // -------------------------------
+  // EMAIL REGISTER (ALL EXCEPTIONS)
   // -------------------------------
   Future<UserCredential> registerWithEmailAndPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       return await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
@@ -56,16 +75,24 @@ class AuthenticationRepo extends GetxController {
       );
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
-    } catch (_) {
-      throw 'Something went wrong. Please try again';
+    } on FirebaseException catch (e) {
+      throw 'Firebase error: ${e.message}';
+    } on FormatException {
+      throw 'Invalid data format';
+    } on PlatformException {
+      throw 'Platform error occurred';
+    } catch (e) {
+      throw 'Unexpected error occurred. Please try again';
     }
   }
 
   // -------------------------------
-  // EMAIL LOGIN
+  // EMAIL LOGIN (ALL EXCEPTIONS)
   // -------------------------------
   Future<UserCredential> loginWithEmailAndPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email.trim(),
@@ -73,30 +100,73 @@ class AuthenticationRepo extends GetxController {
       );
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw 'Firebase error: ${e.message}';
+    } on FormatException {
+      throw 'Invalid input format';
+    } on PlatformException {
+      throw 'Platform error occurred';
     } catch (_) {
-      throw 'Something went wrong. Please try again';
+      throw 'Login failed. Please try again';
     }
   }
 
   // -------------------------------
-  // GOOGLE SIGN-IN (PRODUCTION SAFE)
+  // EMAIL VERIFICATION (ALL EXCEPTIONS)
+  // -------------------------------
+ Future<void> sendEmailVerification() async {
+  try {
+    User? user = _auth.currentUser;
+
+    if (user == null) {
+      throw 'No authenticated user found. Please login again.';
+    }
+
+    // Refresh user state
+    await user.reload();
+    user = _auth.currentUser;
+
+    if (user == null) {
+      throw 'User session expired. Please login again.';
+    }
+
+    if (user.emailVerified) {
+      return;
+    }
+
+    await user.sendEmailVerification();
+  } on FirebaseAuthException catch (e) {
+    throw TFirebaseAuthException(e.code).message;
+  } on FirebaseException catch (e) {
+    throw e.message ?? 'Firebase error occurred.';
+  } on PlatformException catch (e) {
+    throw e.message ?? 'Platform error occurred.';
+  } on FormatException {
+    throw 'Invalid data format.';
+  } catch (e) {
+    throw 'Failed to send verification email.';
+  }
+}
+
+  // -------------------------------
+  // GOOGLE SIGN-IN (ALL EXCEPTIONS)
   // -------------------------------
   Future<UserCredential> signInWithGoogle() async {
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-
-      final GoogleSignInAccount? googleUser =
-          await googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        throw 'Google sign-in cancelled';
+        throw 'Google sign-in cancelled by user';
       }
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      final OAuthCredential credential =
-          GoogleAuthProvider.credential(
+      if (googleAuth.idToken == null) {
+        throw 'Google authentication failed';
+      }
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
@@ -104,20 +174,32 @@ class AuthenticationRepo extends GetxController {
       return await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw 'Firebase error: ${e.message}';
+    } on PlatformException {
+      throw 'Platform error during Google sign-in';
+    } on FormatException {
+      throw 'Invalid Google response format';
     } catch (_) {
       throw 'Google Sign-In failed. Please try again';
     }
   }
 
   // -------------------------------
-  // LOGOUT (IMPORTANT FOR PRODUCTION)
+  // LOGOUT (ALL EXCEPTIONS)
   // -------------------------------
   Future<void> logout() async {
     try {
-      await GoogleSignIn().signOut();
+      await _googleSignIn.signOut();
       await _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw 'Firebase error: ${e.message}';
+    } on PlatformException {
+      throw 'Platform logout error';
     } catch (_) {
-      throw 'Logout failed. Try again';
+      throw 'Logout failed. Please try again';
     }
   }
 }

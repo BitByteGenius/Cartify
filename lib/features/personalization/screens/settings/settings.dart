@@ -3,6 +3,8 @@ import 'package:cartify/common/widgets/custom_shapes/container/primary_header_co
 import 'package:cartify/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:cartify/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:cartify/common/widgets/texts/section_heading.dart';
+import 'package:cartify/data/repositories.autentication/authentication.repo.dart';
+import 'package:cartify/features/authentication/screens/login/login.dart';
 import 'package:cartify/features/personalization/screens/address/widgets/address.dart';
 import 'package:cartify/features/personalization/screens/profile/widgets/profile.dart';
 import 'package:cartify/features/shop/screens/order/order.dart';
@@ -145,13 +147,60 @@ class SettingsScreen extends StatelessWidget {
             //---- Logout ----
             const SizedBox(height: TSizes.spaceBtwSections),
 
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () {},
-                child: const Text('Log out'),
-              ),
+           SizedBox(
+  width: double.infinity,
+  child: OutlinedButton(
+    onPressed: () async {
+      final confirm = await Get.dialog<bool>(
+        AlertDialog(
+          title: const Text("Confirm Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(result: false),
+              child: const Text("Cancel"),
             ),
+            TextButton(
+              onPressed: () => Get.back(result: true),
+              child: const Text("Logout"),
+            ),
+          ],
+        ),
+      );
+
+      if (confirm != true) return;
+
+      try {
+        // Optional: show loading
+        Get.dialog(
+          const Center(child: CircularProgressIndicator()),
+          barrierDismissible: false,
+        );
+
+        await AuthenticationRepo.instance.logout();
+
+        Get.back(); // remove loader
+
+        Get.offAll(() => const LoginScreen());
+
+        Get.snackbar(
+          "Logged out",
+          "You have been successfully logged out",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } catch (e) {
+        if (Get.isDialogOpen ?? false) Get.back();
+
+        Get.snackbar(
+          "Error",
+          "Logout failed. Try again",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    },
+    child: const Text('Log out'),
+  ),
+),
 
             const SizedBox(height: TSizes.spaceBtwSections * 2.5),
           ],

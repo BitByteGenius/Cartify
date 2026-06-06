@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:cartify/data/repositories.autentication/firebase_aut_execption.dart';
+import 'package:cartify/utils/exceptions/firebase_aut_execption.dart';
 
 /// Service that encapsulates Firebase Authentication functionality.
 /// Provides a reactive [Rx<User?>] stream for the current auth state.

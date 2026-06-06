@@ -1,4 +1,4 @@
-import 'package:cartify/data/repositories.autentication/firebase_aut_execption.dart';
+import 'package:cartify/utils/exceptions/firebase_aut_execption.dart';
 import 'package:cartify/features/authentication/models/usermodel.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

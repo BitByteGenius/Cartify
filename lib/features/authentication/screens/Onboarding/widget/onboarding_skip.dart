@@ -1,4 +1,4 @@
-import 'package:cartify/features/authentication/controllers.onboarding/onboarding_controller.dart';
+import 'package:cartify/features/authentication/controllers/onboarding/onboarding_controller.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';

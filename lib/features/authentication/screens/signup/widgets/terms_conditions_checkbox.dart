@@ -1,4 +1,4 @@
-import 'package:cartify/features/authentication/controllers.onboarding/signup/signup_controller.dart';
+import 'package:cartify/features/authentication/controllers/signup/signup_controller.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/constants/text_string.dart';

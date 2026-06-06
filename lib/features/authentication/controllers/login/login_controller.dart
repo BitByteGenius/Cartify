@@ -45,15 +45,13 @@ class LoginController extends GetxController {
       // Check Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        TLoaders.warningSnackBar(
-          title: 'No Internet Connection',
-          message: 'Please check your internet connection and try again.',
-        );
+        TFullScreenLoader.stopLoading();
         return;
       }
 
       // Validate Form
       if (!loginFormKey.currentState!.validate()) {
+        TFullScreenLoader.stopLoading();
         return;
       }
 
@@ -67,21 +65,16 @@ class LoginController extends GetxController {
       if (rememberMe.value) {
         localStorage.write('REMEMBER_ME_EMAIL', email.text.trim());
         localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
-      } else {
-        localStorage.remove('REMEMBER_ME_EMAIL');
-        localStorage.remove('REMEMBER_ME_PASSWORD');
       }
-
       // Login User
-      await AuthenticationRepo.instance.loginWithEmailAndPassword(
-        email.text.trim(),
-        password.text.trim(),
-      );
+       await AuthenticationRepo.instance
+          .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
 
       // Remove Loader
       TFullScreenLoader.stopLoading();
 
       // AuthenticationRepo's screenRedirect will automatically navigate to NavigationMenu
+      AuthenticationRepo.instance.screenRedirect();
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
@@ -114,13 +107,16 @@ class LoginController extends GetxController {
         return; // User cancelled the sign-in
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
       final User? user = userCredential.user;
 
       if (user != null) {
@@ -128,11 +124,15 @@ class LoginController extends GetxController {
         final userRepo = Get.put(UserRepo());
         final doc = await userRepo.getUserRecord(user.uid);
         if (doc == null) {
-          final List<String> nameParts = UserModel.nameParts(user.displayName ?? '');
+          final List<String> nameParts = UserModel.nameParts(
+            user.displayName ?? '',
+          );
           final newUser = UserModel(
             id: user.uid,
             firstName: nameParts.isNotEmpty ? nameParts[0] : '',
-            lastName: nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '',
+            lastName: nameParts.length > 1
+                ? nameParts.sublist(1).join(' ')
+                : '',
             email: user.email ?? '',
             username: UserModel.generateUsername(user.displayName ?? ''),
             phoneNumber: user.phoneNumber ?? '',
@@ -155,7 +155,10 @@ class LoginController extends GetxController {
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) return;
 
-      TFullScreenLoader.openLoadingDialog('Sending reset link...', TImage.darkAppLogo);
+      TFullScreenLoader.openLoadingDialog(
+        'Sending reset link...',
+        TImage.darkAppLogo,
+      );
 
       await _auth.sendPasswordResetEmail(email: emailText.trim());
 

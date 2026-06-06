@@ -1,5 +1,5 @@
 
-import 'package:cartify/features/authentication/controllers/login_controller.dart';
+import 'package:cartify/features/authentication/controllers/login/login_controller.dart';
 import 'package:cartify/features/authentication/screens/password_configuration/forget_password.dart';
 import 'package:cartify/features/authentication/screens/signup/signup.dart';
 import 'package:cartify/utils/constants/sizes.dart';
