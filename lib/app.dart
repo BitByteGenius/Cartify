@@ -1,4 +1,5 @@
 import 'package:cartify/bindings/general_bindings.dart';
+import 'package:cartify/features/authentication/screens/Onboarding/onboarding.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,12 @@ class App extends StatelessWidget {
       home: Scaffold (
         backgroundColor: TColors.primary,
         body: Center(
-          child: CircularProgressIndicator(color: Colors.white,),
+         /* child: CircularProgressIndicator(color: Colors.white,),
         ),
-      )
-        //(child: OnboardingScreen()), // minimal fix
+      )*/
+        child: OnboardingScreen()
+        ), 
+        )// minimal fix
     );
   }
 }

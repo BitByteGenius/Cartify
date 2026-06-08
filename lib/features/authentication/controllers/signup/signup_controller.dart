@@ -4,7 +4,6 @@ import 'package:cartify/data/repositories.autentication/authentication.repo.dart
 import 'package:cartify/data/repositories.autentication/user_repo.dart';
 import 'package:cartify/features/authentication/models/usermodel.dart';
 import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
-import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/popups/full_screen_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +105,6 @@ class SignupController extends GetxController {
     // START LOADER
     TFullScreenLoader.openLoadingDialog(
       'Creating your account...',
-      TImage.darkAppLogo,
     );
 
     // INTERNET CHECK

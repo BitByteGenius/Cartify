@@ -18,48 +18,41 @@ class AuthenticationRepo extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
-void onReady() {
-  FlutterNativeSplash.remove();
-  screenRedirect();
-  super.onReady();
-}
+  void onReady() {
+    FlutterNativeSplash.remove();
+    screenRedirect();
+    super.onReady();
+  }
 
- Future<void> screenRedirect() async {
-  final user = _auth.currentUser;
+  Future<void> screenRedirect() async {
+    final user = _auth.currentUser;
 
-  if (user != null) {
-    await user.reload();
+    if (user != null) {
+      await user.reload();
 
-    if (user.emailVerified) {
-      Get.offAll(() => const NavigationMenu());
-    } else {
-      Get.offAll(
-        () => VerifyEmailScreen(
-          email: user.email,
-        ),
-      );
+      if (user.emailVerified) {
+        Get.offAll(() => const NavigationMenu());
+      } else {
+        Get.offAll(() => VerifyEmailScreen(email: user.email));
+      }
+      return;
     }
-    return;
+
+    deviceStorage.writeIfNull('IsFirstTime', true);
+
+    final bool isFirstTime = deviceStorage.read('IsFirstTime') ?? true;
+
+    if (isFirstTime) {
+      await deviceStorage.write('IsFirstTime', false);
+      Get.offAll(() => const OnboardingScreen());
+    } else {
+      Get.offAll(() => const LoginScreen());
+    }
   }
-
-  deviceStorage.writeIfNull('IsFirstTime', true);
-
-  final bool isFirstTime =
-      deviceStorage.read('IsFirstTime') ?? true;
-
-  if (isFirstTime) {
-    await deviceStorage.write('IsFirstTime', false);
-    Get.offAll(() => const OnboardingScreen());
-  } else {
-    Get.offAll(() => const LoginScreen());
-  }
-}
-
 
   // -------------------------------
   // ROUTING
   // -------------------------------
- 
 
   // -------------------------------
   // EMAIL REGISTER (ALL EXCEPTIONS)
@@ -114,39 +107,39 @@ void onReady() {
   // -------------------------------
   // EMAIL VERIFICATION (ALL EXCEPTIONS)
   // -------------------------------
- Future<void> sendEmailVerification() async {
-  try {
-    User? user = _auth.currentUser;
+  Future<void> sendEmailVerification() async {
+    try {
+      User? user = _auth.currentUser;
 
-    if (user == null) {
-      throw 'No authenticated user found. Please login again.';
+      if (user == null) {
+        throw 'No authenticated user found. Please login again.';
+      }
+
+      // Refresh user state
+      await user.reload();
+      user = _auth.currentUser;
+
+      if (user == null) {
+        throw 'User session expired. Please login again.';
+      }
+
+      if (user.emailVerified) {
+        return;
+      }
+
+      await user.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw e.message ?? 'Firebase error occurred.';
+    } on PlatformException catch (e) {
+      throw e.message ?? 'Platform error occurred.';
+    } on FormatException {
+      throw 'Invalid data format.';
+    } catch (e) {
+      throw 'Failed to send verification email.';
     }
-
-    // Refresh user state
-    await user.reload();
-    user = _auth.currentUser;
-
-    if (user == null) {
-      throw 'User session expired. Please login again.';
-    }
-
-    if (user.emailVerified) {
-      return;
-    }
-
-    await user.sendEmailVerification();
-  } on FirebaseAuthException catch (e) {
-    throw TFirebaseAuthException(e.code).message;
-  } on FirebaseException catch (e) {
-    throw e.message ?? 'Firebase error occurred.';
-  } on PlatformException catch (e) {
-    throw e.message ?? 'Platform error occurred.';
-  } on FormatException {
-    throw 'Invalid data format.';
-  } catch (e) {
-    throw 'Failed to send verification email.';
   }
-}
 
   // -------------------------------
   // GOOGLE SIGN-IN (ALL EXCEPTIONS)
@@ -182,6 +175,25 @@ void onReady() {
       throw 'Invalid Google response format';
     } catch (_) {
       throw 'Google Sign-In failed. Please try again';
+    }
+  }
+
+  // -------------------------------
+  // Forget password
+  // -------------------------------
+  Future<void> sendPaswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw e.message ?? 'Firebase error occurred.';
+    } on PlatformException catch (e) {
+      throw e.message ?? 'Platform error occurred.';
+    } on FormatException {
+      throw 'Invalid data format.';
+    } catch (e) {
+      throw 'Failed to send verification email.';
     }
   }
 

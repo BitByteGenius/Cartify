@@ -1,15 +1,12 @@
 import 'package:cartify/common/widgets/login_singup/loaders/loader.dart';
 import 'package:cartify/common/widgets/login_singup/loaders/network_manager.dart';
 import 'package:cartify/data/repositories.autentication/authentication.repo.dart';
-import 'package:cartify/data/repositories.autentication/user_repo.dart';
-import 'package:cartify/features/authentication/models/usermodel.dart';
-import 'package:cartify/utils/constants/image_string.dart';
+import 'package:cartify/features/personalization/controllers/user_controller.dart';
 import 'package:cartify/utils/popups/full_screen_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -21,6 +18,7 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final userController = Get.put(UserController());
 
   final _auth = FirebaseAuth.instance;
 
@@ -56,10 +54,7 @@ class LoginController extends GetxController {
       }
 
       // Start Loading
-      TFullScreenLoader.openLoadingDialog(
-        'Logging you in...',
-        TImage.darkAppLogo,
-      );
+      TFullScreenLoader.openLoadingDialog('Logging you in...', );
 
       // Save Remember Me Credentials
       if (rememberMe.value) {
@@ -67,8 +62,10 @@ class LoginController extends GetxController {
         localStorage.write('REMEMBER_ME_PASSWORD', password.text.trim());
       }
       // Login User
-       await AuthenticationRepo.instance
-          .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
+      await AuthenticationRepo.instance.loginWithEmailAndPassword(
+        email.text.trim(),
+        password.text.trim(),
+      );
 
       // Remove Loader
       TFullScreenLoader.stopLoading();
@@ -82,67 +79,25 @@ class LoginController extends GetxController {
   }
 
   /// Google Sign In
-  Future<void> googleSignIn() async {
+  Future<void> signInWithGoogle() async {
     try {
-      // Check Connectivity
+      TFullScreenLoader.openLoadingDialog('Login you in', );
+
       final isConnected = await NetworkManager.instance.isConnected();
+
       if (!isConnected) {
-        TLoaders.warningSnackBar(
-          title: 'No Internet Connection',
-          message: 'Please check your internet connection and try again.',
-        );
+        TFullScreenLoader.stopLoading();
         return;
       }
 
-      // Start Loading
-      TFullScreenLoader.openLoadingDialog(
-        'Logging in with Google...',
-        TImage.darkAppLogo,
-      );
+      final userCredential = await AuthenticationRepo.instance
+          .signInWithGoogle();
 
-      // Sign In with Google
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        TFullScreenLoader.stopLoading();
-        return; // User cancelled the sign-in
-      }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final UserCredential userCredential = await _auth.signInWithCredential(
-        credential,
-      );
-      final User? user = userCredential.user;
-
-      if (user != null) {
-        // Check if user record already exists in Firestore, if not create it
-        final userRepo = Get.put(UserRepo());
-        final doc = await userRepo.getUserRecord(user.uid);
-        if (doc == null) {
-          final List<String> nameParts = UserModel.nameParts(
-            user.displayName ?? '',
-          );
-          final newUser = UserModel(
-            id: user.uid,
-            firstName: nameParts.isNotEmpty ? nameParts[0] : '',
-            lastName: nameParts.length > 1
-                ? nameParts.sublist(1).join(' ')
-                : '',
-            email: user.email ?? '',
-            username: UserModel.generateUsername(user.displayName ?? ''),
-            phoneNumber: user.phoneNumber ?? '',
-            profilePicture: user.photoURL ?? '',
-          );
-          await userRepo.saveUserRecord(newUser);
-        }
-      }
+      await userController.saveUserRecord(userCredential);
 
       TFullScreenLoader.stopLoading();
+
+      AuthenticationRepo.instance.screenRedirect();
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
@@ -157,7 +112,7 @@ class LoginController extends GetxController {
 
       TFullScreenLoader.openLoadingDialog(
         'Sending reset link...',
-        TImage.darkAppLogo,
+        
       );
 
       await _auth.sendPasswordResetEmail(email: emailText.trim());

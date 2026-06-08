@@ -5,32 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TFullScreenLoader {
-  static void openLoadingDialog(String text, String animation) {
+  static void openLoadingDialog(
+    String text,
+   // String animation,
+  ) {
     showDialog(
       context: Get.overlayContext!,
       barrierDismissible: false,
       builder: (_) => PopScope(
         canPop: false,
-        child: Container(
-          color: THelperFunction.isDarkMode(Get.context!)
+        child: Scaffold(
+          backgroundColor: THelperFunction.isDarkMode(Get.context!)
               ? TColors.dark
               : TColors.white,
-          width: double.infinity,
-          height: double.infinity,
-          child: Column(
-            children: [
-              const SizedBox(height: 250),
-              TAnimationLoaderWidget(text: text, animation: animation),
-            ],
+          body: SafeArea(
+            child: Center(
+              child: TAnimationLoaderWidget(
+                text: text,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  // stop the current loading dailog
-  //This method doesn't return anything
   static void stopLoading() {
-    Navigator.of(Get.overlayContext!).pop();
+    if (Get.overlayContext != null &&
+        Navigator.of(Get.overlayContext!).canPop()) {
+      Navigator.of(Get.overlayContext!).pop();
+    }
   }
 }

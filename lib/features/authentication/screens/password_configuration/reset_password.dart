@@ -1,3 +1,4 @@
+import 'package:cartify/features/authentication/controllers/forgot_password/forget_password.dart';
 import 'package:cartify/features/authentication/screens/login/login.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
@@ -7,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key, required this.email});
 
-class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +19,15 @@ class ResetPassword extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: () => Get.back(), icon: const Icon(CupertinoIcons.clear)),
+          IconButton(
+            onPressed: () => Get.back(),
+            icon: const Icon(CupertinoIcons.clear),
+          ),
         ],
       ),
-      body:  SingleChildScrollView(
-        child: Padding(padding: EdgeInsets.all(
-          TSizes.defaultSpace),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
             children: [
               // Image with 60 %  of screen width
@@ -58,11 +63,14 @@ class ResetPassword extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBtwItems),
               SizedBox(
                 width: double.infinity,
-                child: TextButton(onPressed: (){}, child: const Text(TTexts.resendEmail)),
-              )
+                child: TextButton(
+                  onPressed: () => ForgetPasswordController.instance.resendPasswordResetEmail(email),
+                  child: const Text(TTexts.resendEmail),
+                ),
+              ),
             ],
           ),
-          ),
+        ),
       ),
     );
   }
