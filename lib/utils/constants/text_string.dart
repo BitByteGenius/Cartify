@@ -28,6 +28,7 @@ class TTexts {
   static const String rememberMe = "Remember Me";
   static const String forgetPassword = "Forgot Password?";
   static const String signIn = "Sign In";
+  static const String tcontinue = "Continue";
   static const String createAccount = "Create Account";
   static const String orSignUpWith = "or sign up with";
   static const String orSignInWith = "or sign in with";
@@ -42,6 +43,8 @@ class TTexts {
   static const String verificationCode = "Verification Code";
   static const String resendEmail = "Resend Email";
   static const String resendEmailIn = "Resend email in";
+  static const String submit = "Submit";
+  static const String done = "Done";
 
   // Authentication Heading Text
   static const String loginTitle = "Welcome Back,";
