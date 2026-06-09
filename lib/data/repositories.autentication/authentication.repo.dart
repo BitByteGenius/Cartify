@@ -1,3 +1,4 @@
+import 'package:cartify/data/repositories.autentication/user_repo.dart';
 import 'package:cartify/features/authentication/screens/signup/verify_email.dart';
 import 'package:cartify/utils/exceptions/firebase_aut_execption.dart';
 import 'package:cartify/features/authentication/screens/Onboarding/onboarding.dart';
@@ -16,6 +17,9 @@ class AuthenticationRepo extends GetxController {
   final GetStorage deviceStorage = GetStorage();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  //GEt authenticated user data
+  User? get authUser => _auth.currentUser;
 
   @override
   void onReady() {
@@ -50,9 +54,28 @@ class AuthenticationRepo extends GetxController {
     }
   }
 
-  // -------------------------------
-  // ROUTING
-  // -------------------------------
+  // Re-Authenticate User
+  Future<void> reAuthenticateWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final credential = EmailAuthProvider.credential(
+        email: email.trim(),
+        password: password.trim(),
+      );
+
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw e.message ?? 'Firebase error occurred.';
+    } on PlatformException catch (e) {
+      throw e.message ?? 'Platform error occurred.';
+    } catch (e) {
+      throw 'Failed to re-authenticate user.';
+    }
+  }
 
   // -------------------------------
   // EMAIL REGISTER (ALL EXCEPTIONS)
@@ -138,6 +161,30 @@ class AuthenticationRepo extends GetxController {
       throw 'Invalid data format.';
     } catch (e) {
       throw 'Failed to send verification email.';
+    }
+  }
+
+  //-- Delete user account
+  Future<void> deleteAccount() async {
+    try {
+      User? user = _auth.currentUser;
+
+      if (user == null) {
+        throw 'No authenticated user found.';
+      }
+      await UserRepo.instance.removeUserRecord(_auth.currentUser!.uid);
+      await _auth.currentUser?.delete();
+
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw e.message ?? 'Something wants wrong';
+    } on PlatformException catch (e) {
+      throw e.message ?? 'Platform error occurred.';
+    } catch (e) {
+      throw 'Failed to delete account.';
     }
   }
 

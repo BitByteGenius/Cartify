@@ -21,11 +21,9 @@ class ProductsController extends GetxController {
   }
 
   void openAddProductDialog() {
-    // TODO: show a dialog/form for adding a product (not implemented yet)
   }
 
   void openEditProductDialog(ProductModel product) {
-    // TODO: show a dialog/form for editing the product (not implemented yet)
   }
 
   void deleteProduct(String id) async {

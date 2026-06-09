@@ -21,11 +21,9 @@ class BrandsController extends GetxController {
   }
 
   void openAddBrandDialog() {
-    // TODO: implement UI for adding a brand
   }
 
   void openEditBrandDialog(BrandModel brand) {
-    // TODO: implement UI for editing a brand
   }
 
   void deleteBrand(String id) async {

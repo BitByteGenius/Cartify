@@ -23,7 +23,6 @@ class UsersController extends GetxController {
   void handleAction(UserModel user, String action) async {
     switch (action) {
       case 'edit':
-        // TODO: navigate to edit screen (not implemented yet)
         break;
       case 'disable':
         await _repo.update(user.uid, user..status = 'disabled');

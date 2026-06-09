@@ -10,7 +10,7 @@ import 'dart:io';
 void main() async {
   final libDir = Directory('lib');
   if (!await libDir.exists()) {
-    print('lib directory not found');
+    //print('lib directory not found');
     exit(1);
   }
   final report = StringBuffer();
@@ -66,5 +66,4 @@ void main() async {
   }
   final reportFile = File('AUDIT_REPORT.md');
   await reportFile.writeAsString(report.toString());
-  print('Audit completed. Report generated at ${reportFile.path}');
 }
