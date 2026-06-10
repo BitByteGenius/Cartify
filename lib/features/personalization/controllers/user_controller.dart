@@ -10,6 +10,7 @@ import 'package:cartify/utils/popups/full_screen_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
@@ -18,6 +19,7 @@ class UserController extends GetxController {
   Rx<UserModel> user = UserModel.empty().obs;
 
   final hidePassword = false.obs;
+  final imageUploading = false.obs;
   final verifyEmail = TextEditingController();
   final verifyPassword = TextEditingController();
   final userRepository = Get.put(UserRepo());
@@ -45,6 +47,10 @@ class UserController extends GetxController {
   //save user Record from any Registration provider
   Future<void> saveUserRecord(UserCredential? userCredentials) async {
     try {
+      //refresh user record
+      await fetchUserRecord();
+
+      //if no data already exist
       if (userCredentials != null) {
         //Convert Name to first and last name
         final nameParts = UserModel.nameParts(
@@ -129,29 +135,68 @@ class UserController extends GetxController {
   }
 
   Future<void> reAuthenticateEmailAndPasswordUser() async {
-  try {
-    TFullScreenLoader.openLoadingDialog('Processing');
+    try {
+      TFullScreenLoader.openLoadingDialog('Processing');
 
-    //Check Internet
-    final isConnected = await NetworkManager.instance.isConnected();
-    if (!isConnected) {
+      //Check Internet
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        TFullScreenLoader.stopLoading();
+        return;
+      }
+
+      if (!reAuthFormKey.currentState!.validate()) {
+        TFullScreenLoader.stopLoading();
+        return;
+      }
+
+      await AuthenticationRepo.instance.reAuthenticateWithEmailAndPassword(
+        verifyEmail.text.trim(),
+        verifyPassword.text.trim(),
+      );
+      await AuthenticationRepo.instance.deleteAccount();
       TFullScreenLoader.stopLoading();
-      return;
-    }
-
-    if (!reAuthFormKey.currentState!.validate()) {
+      Get.offAll(() => const LoginScreen());
+    } catch (e) {
       TFullScreenLoader.stopLoading();
-      return;
+      TLoaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
     }
-
-    await AuthenticationRepo.instance.reAuthenticateWithEmailAndPassword(verifyEmail.text.trim(), verifyPassword.text.trim());
-    await AuthenticationRepo.instance.deleteAccount();
-    TFullScreenLoader.stopLoading();
-    Get.offAll(() => const LoginScreen());
-  } catch (e) {
-    TFullScreenLoader.stopLoading();
-    TLoaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
   }
-}
 
+  // upload image profile
+  uploadUserProfilePicture() async {
+    try {
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 70,
+        maxHeight: 512,
+        maxWidth: 512,
+      );
+      if (image != null) {
+        imageUploading.value = true;
+        //Upload Image
+        final imageUrl = await userRepository.uploadImage(
+          'Users/Images/Profile',
+          image,
+        );
+
+        //Update user image record
+        Map<String, dynamic> json = {'profilePicture': imageUrl};
+        await userRepository.updateSingleField(json);
+
+        user.value.profilePicture = imageUrl;
+        TLoaders.successSnackBar(
+          title: 'Congratulation',
+          message: 'Your Profile Image updated!',
+        );
+      }
+    } catch (e) {
+      TLoaders.errorSnackBar(
+        title: 'Oh Snap',
+        message: 'Something went wrong: $e',
+      );
+    } finally {
+      imageUploading.value = false;
+    }
+  }
 }

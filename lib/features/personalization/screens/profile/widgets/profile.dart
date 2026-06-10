@@ -6,6 +6,7 @@ import 'package:cartify/features/personalization/screens/profile/widgets/change_
 import 'package:cartify/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
+import 'package:cartify/utils/popups/shimmer-effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -29,13 +30,21 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    const TCircularImage(
-                      image: TImage.user,
-                      width: 80,
-                      height: 80,
+                    Obx((){
+                      final networkImage = controller.user.value.profilePicture;
+                      final image = networkImage.isNotEmpty? networkImage : TImage.user;
+                      return controller.imageUploading.value
+                        ?const TShimmerEffect(width: 80, height: 80)
+                        : TCircularImage(
+                        image: image,
+                        width: 80,
+                        height: 80,
+                        isNetworkImage: networkImage.isNotEmpty,
+                      );
+                      }
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => controller.uploadUserProfilePicture(),
                       child: const Text('Change Profile Picture'),
                     ),
                   ],
