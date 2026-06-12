@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/helpers/helper_function.dart';
-import 'package:cartify/utils/popups/shimmer-effect.dart';
+import 'package:cartify/common/widgets/shimmers/shimmer-effect.dart';
 import 'package:flutter/material.dart';
 
 class TCircularImage extends StatelessWidget {

@@ -1,3 +1,4 @@
+import 'package:cartify/common/widgets/login_singup/loaders/loader.dart';
 import 'package:cartify/common/widgets/login_singup/loaders/network_manager.dart';
 import 'package:cartify/data/repositories/category_repository.dart';
 import 'package:cartify/features/shop/models/category_model.dart';
@@ -8,36 +9,34 @@ class CategoryController extends GetxController {
 
   // Observables
   final isLoading = false.obs;
-  final allCategories = <CategoryModel>[].obs;
-  final featuredCategories = <CategoryModel>[].obs;
 
-  final CategoryRepository _categoryRepo = Get.put(CategoryRepository());
+  final  _categoryRepository = Get.put(CategoryRepository());
+  RxList<CategoryModel> allCategories = <CategoryModel>[].obs;
+  RxList<CategoryModel> featuredCategories = <CategoryModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadCategories();
+    fetchCategories();
   }
 
   /// Load categories from Firestore
-  Future<void> loadCategories() async {
+  Future<void> fetchCategories() async {
     try {
       isLoading.value = true;
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (isConnected) {
         // Fetch all categories
-        final categories = await _categoryRepo.getAllCategories();
+        final categories = await _categoryRepository.getAllCategories();
+        //Update category list
         allCategories.assignAll(categories);
 
         // Filter featured categories
-        final featured = categories
-            .where((cat) => cat.isFeatured && cat.parentId == null)
-            .toList();
-        featuredCategories.assignAll(featured);
+        featuredCategories.assignAll(allCategories.where((category) => category.isFeatured && category.parentId == null).take(8).toList());
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     } finally {
       isLoading.value = false;
     }

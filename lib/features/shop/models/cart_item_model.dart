@@ -1,52 +1,68 @@
 class CartItemModel {
-  String productId;
-  String title;
-  double price;
+  String? cartId;
+  List<CartItemModel>? items;
+
+  String? productId;
+  String? variationId;
+  String? title;
   String? image;
+  String? brandName;
+  double? price;
   int quantity;
-  String color;
-  String size;
+  Map<String, dynamic>? selectedVariation;
 
   CartItemModel({
-    required this.productId,
-    required this.title,
-    required this.price,
+    this.cartId,
+    this.items,
+    this.productId,
+    this.variationId,
+    this.title,
     this.image,
+    this.brandName,
+    this.price,
     this.quantity = 1,
-    this.color = '',
-    this.size = '',
+    this.selectedVariation,
   });
 
-  // Empty model
-  static CartItemModel empty() => CartItemModel(
-        productId: '',
-        title: '',
-        price: 0.0,
-      );
+  static CartItemModel empty() => CartItemModel();
 
-  // Convert model to JSON
   Map<String, dynamic> toJson() {
     return {
+      'cartId': cartId,
+      'items': items?.map((e) => e.toJson()).toList(),
       'productId': productId,
+      'variationId': variationId,
       'title': title,
-      'price': price,
       'image': image,
+      'brandName': brandName,
+      'price': price,
       'quantity': quantity,
-      'color': color,
-      'size': size,
+      'selectedVariation': selectedVariation,
     };
   }
 
-  // Factory from JSON
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
-      productId: json['productId'] ?? '',
-      title: json['title'] ?? '',
-      price: (json['price'] ?? 0.0).toDouble(),
+      cartId: json['cartId'],
+      items: json['items'] != null
+          ? (json['items'] as List)
+              .map((e) => CartItemModel.fromJson(
+                    Map<String, dynamic>.from(e),
+                  ))
+              .toList()
+          : null,
+      productId: json['productId'],
+      variationId: json['variationId'],
+      title: json['title'],
       image: json['image'],
+      brandName: json['brandName'],
+      price: json['price'] != null
+          ? (json['price'] as num).toDouble()
+          : null,
       quantity: json['quantity'] ?? 1,
-      color: json['color'] ?? '',
-      size: json['size'] ?? '',
+      selectedVariation: json['selectedVariation'] != null
+          ? Map<String, dynamic>.from(json['selectedVariation'])
+          : null,
     );
   }
 }

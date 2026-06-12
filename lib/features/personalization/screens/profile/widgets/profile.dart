@@ -6,7 +6,7 @@ import 'package:cartify/features/personalization/screens/profile/widgets/change_
 import 'package:cartify/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
-import 'package:cartify/utils/popups/shimmer-effect.dart';
+import 'package:cartify/common/widgets/shimmers/shimmer-effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';

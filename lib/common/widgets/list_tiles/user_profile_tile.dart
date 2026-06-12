@@ -2,7 +2,7 @@ import 'package:cartify/common/widgets/images/t_circular_image.dart';
 import 'package:cartify/features/personalization/controllers/user_controller.dart';
 import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/constants/image_string.dart';
-import 'package:cartify/utils/popups/shimmer-effect.dart';
+import 'package:cartify/common/widgets/shimmers/shimmer-effect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';

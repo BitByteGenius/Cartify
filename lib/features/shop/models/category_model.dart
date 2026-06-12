@@ -4,39 +4,33 @@ class CategoryModel {
   final String id;
   final String name;
   final String? parentId;
-  final String? imageUrl;
+  final String? image;
   final bool isActive;
   final bool isFeatured;
-  final Timestamp createdAt;
   final Timestamp? updatedAt;
 
   CategoryModel({
     required this.id,
     required this.name,
     this.parentId,
-    this.imageUrl,
+    this.image,
     this.isActive = true,
-    this.isFeatured = false,
-    required this.createdAt,
+    required this.isFeatured,
     this.updatedAt,
   });
 
   // Empty model
-  static CategoryModel empty() => CategoryModel(
-        id: '',
-        name: '',
-        createdAt: Timestamp.now(),
-      );
+  static CategoryModel empty() =>
+      CategoryModel(id: '', name: '', isFeatured: false);
 
   // Convert model to JSON
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'parentId': parentId,
-      'imageUrl': imageUrl,
+      'ParentId': parentId,
+      'image': image,
       'isActive': isActive,
       'isFeatured': isFeatured,
-      'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
   }
@@ -47,18 +41,31 @@ class CategoryModel {
       id: id,
       name: data['name'] ?? '',
       parentId: data['parentId'],
-      imageUrl: data['imageUrl'],
+      image: data['image'] ?? '',
       isActive: data['isActive'] ?? true,
       isFeatured: data['isFeatured'] ?? false,
-      createdAt: data['createdAt'] ?? Timestamp.now(),
       updatedAt: data['updatedAt'],
     );
   }
 
   // Factory from DocumentSnapshot
   factory CategoryModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
-    if (document.data() == null) return CategoryModel.empty();
-    return CategoryModel.fromJson(document.data()!, document.id);
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
+    if (document.data() != null) {
+      final data = document.data()!;
+      
+
+      //map json record to model
+      return CategoryModel(
+       id: document.id,
+        name: data['name'] ?? '',
+        parentId: data['parentId'],
+        image: data['image'] ?? '',
+        isFeatured: data['isFeatured'] ?? false,
+       );
+    }else{
+      return CategoryModel.empty();
+    }
   }
 }
