@@ -21,8 +21,8 @@ class TCategoryShimmer extends StatelessWidget {
         // Removed shrinkWrap for better scroll performance
         itemCount: itemCount,
         scrollDirection: Axis.horizontal,
-        separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems),
-        itemBuilder: (_, __) {
+        separatorBuilder: (_, _) => const SizedBox(width: TSizes.spaceBtwItems),
+        itemBuilder: (_, _) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

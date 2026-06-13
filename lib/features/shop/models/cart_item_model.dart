@@ -1,17 +1,19 @@
 class CartItemModel {
-  String? cartId;
-  List<CartItemModel>? items;
+  // Cart Fields
+  final String? cartId;
+  final List<CartItemModel>? items;
 
-  String? productId;
-  String? variationId;
-  String? title;
-  String? image;
-  String? brandName;
-  double? price;
-  int quantity;
-  Map<String, dynamic>? selectedVariation;
+  // Item Fields
+  final String? productId;
+  final String? variationId;
+  final String? title;
+  final String? image;
+  final String? brandName;
+  final double? price;
+  final int quantity;
+  final Map<String, dynamic>? selectedVariation;
 
-  CartItemModel({
+  const CartItemModel({
     this.cartId,
     this.items,
     this.productId,
@@ -24,7 +26,19 @@ class CartItemModel {
     this.selectedVariation,
   });
 
-  static CartItemModel empty() => CartItemModel();
+  static CartItemModel empty() => const CartItemModel(
+        cartId: '',
+        productId: '',
+        variationId: '',
+        title: '',
+        image: '',
+        brandName: '',
+        price: 0,
+      );
+
+  bool get isCart => cartId != null;
+
+  double get totalPrice => (price ?? 0) * quantity;
 
   Map<String, dynamic> toJson() {
     return {
@@ -45,12 +59,10 @@ class CartItemModel {
     return CartItemModel(
       cartId: json['cartId'],
       items: json['items'] != null
-          ? (json['items'] as List)
-              .map((e) => CartItemModel.fromJson(
-                    Map<String, dynamic>.from(e),
-                  ))
+          ? List<Map<String, dynamic>>.from(json['items'])
+              .map((e) => CartItemModel.fromJson(e))
               .toList()
-          : null,
+          : [],
       productId: json['productId'],
       variationId: json['variationId'],
       title: json['title'],
@@ -58,11 +70,11 @@ class CartItemModel {
       brandName: json['brandName'],
       price: json['price'] != null
           ? (json['price'] as num).toDouble()
-          : null,
+          : 0.0,
       quantity: json['quantity'] ?? 1,
       selectedVariation: json['selectedVariation'] != null
           ? Map<String, dynamic>.from(json['selectedVariation'])
-          : null,
+          : {},
     );
   }
 }

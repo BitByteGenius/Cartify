@@ -1,54 +1,48 @@
-import 'package:cartify/data/repositories/banner_repository.dart';
 import 'package:cartify/features/authentication/models/usermodel.dart';
 import 'package:cartify/features/personalization/models/address_model.dart';
+import 'package:cartify/features/shop/models/banner_model.dart';
 import 'package:cartify/features/shop/models/cart_item_model.dart';
 import 'package:cartify/features/shop/models/category_model.dart';
 import 'package:cartify/features/shop/models/order_model.dart';
+import 'package:cartify/routes/routes.dart';
 import 'package:cartify/utils/constants/image_string.dart';
 
 class TDummyData {
   /// -- Banners
   static final List<BannerModel> banners = [
     BannerModel(
-      id: 'b1',
       imageUrl: TImage.promoBanner1,
-      targetScreen: 'order',
+      targetScreen: TRoutes.order,
       active: false,
     ),
     BannerModel(
-      id: 'b2',
       imageUrl: TImage.promoBanner2,
-      targetScreen: 'cart',
+      targetScreen: TRoutes.cart,
       active: true,
     ),
     BannerModel(
-      id: 'b3',
       imageUrl: TImage.promoBanner3,
-      targetScreen: 'favourites',
+      targetScreen: TRoutes.favourites,
       active: true,
     ),
     BannerModel(
-      id: 'b4',
       imageUrl: TImage.promoBanner4,
-      targetScreen: 'search',
+      targetScreen: TRoutes.search,
       active: true,
     ),
     BannerModel(
-      id: 'b5',
       imageUrl: TImage.promoBanner5,
-      targetScreen: 'settings',
+      targetScreen: TRoutes.settings,
       active: true,
     ),
     BannerModel(
-      id: 'b6',
       imageUrl: TImage.promoBanner6,
-      targetScreen: 'userAddress',
+      targetScreen: TRoutes.userAddress,
       active: true,
     ),
     BannerModel(
-      id: 'b7',
       imageUrl: TImage.promoBanner1,
-      targetScreen: 'checkout',
+      targetScreen: TRoutes.checkout,
       active: false,
     ),
   ];
@@ -87,31 +81,37 @@ class TDummyData {
   ],
 );
 
-  // cart items (sample)
-  static final CartItemModel cart = CartItemModel(
+  // Define this first
+
+// Then create cart
+static final CartItemModel cart = CartItemModel(
   cartId: '001',
   items: [
     CartItemModel(
       productId: '001',
       variationId: '1',
       quantity: 1,
-      title: Products[0].thumbnail,
-      image: Products[0].thumbnail,
-      brandName: Products[0].brand!.name,
-      selectedVariation:
-          Products[0].productVariations![0].attributeValues,
-      price: Products[0].productVariations![0].price,
+      title: 'Nike Running Shoes',
+image: TImage.productImage1,
+brandName: 'Nike',
+selectedVariation: {
+  'Color': 'Black',
+  'Size': '42',
+},
+price: 120,
     ),
     CartItemModel(
       productId: '002',
       variationId: '',
       quantity: 1,
-      title: Products[1].thumbnail,
-      image: Products[1].thumbnail,
-      brandName: Products[1].brand!.name,
-      selectedVariation:
-          Products[1].productVariations![0].attributeValues,
-      price: Products[1].productVariations![0].price,
+      title: 'Nike Running Shoes',
+image: TImage.productImage1,
+brandName: 'Nike',
+selectedVariation: {
+  'Color': 'Black',
+  'Size': '42',
+},
+price: 120,
     ),
   ],
 );

@@ -7,7 +7,6 @@ import 'package:cartify/features/shop/screens/all_products/all_products.dart';
 import 'package:cartify/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:cartify/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:cartify/features/shop/screens/home/widgets/promo_slider.dart';
-import 'package:cartify/utils/constants/image_string.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,13 +60,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsetsGeometry.all(TSizes.defaultSpace),
               child: Column(
                 children: [
-                  const TPromoSlider(
-                    banner: [
-                      TImage.promoBanner1,
-                      TImage.promoBanner2,
-                      TImage.promoBanner3,
-                    ],
-                  ),
+                  const TPromoSlider(),
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   // Heading-----

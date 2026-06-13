@@ -1,60 +1,30 @@
+import 'package:cartify/features/shop/models/banner_model.dart';
+import 'package:cartify/utils/exceptions/firebase_exception.dart';
+import 'package:cartify/utils/exceptions/plateform.exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class BannerModel {
-  final String id;
-  final String imageUrl;
-  final bool active;
-  final String targetScreen;
-
-  BannerModel({
-    required this.id,
-    required this.imageUrl,
-    required this.active,
-    required this.targetScreen,
-  });
-
-  // Empty model
-  static BannerModel empty() => BannerModel(id: '', imageUrl: '', active: false, targetScreen: '');
-
-  Map<String, dynamic> toJson() {
-    return {
-      'imageUrl': imageUrl,
-      'active': active,
-      'targetScreen': targetScreen,
-    };
-  }
-
-  factory BannerModel.fromJson(Map<String, dynamic> json, String id) {
-    return BannerModel(
-      id: id,
-      imageUrl: json['imageUrl'] ?? '',
-      active: json['active'] ?? false,
-      targetScreen: json['targetScreen'] ?? '',
-    );
-  }
-
-  factory BannerModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
-    if (doc.data() == null) return BannerModel.empty();
-    return BannerModel.fromJson(doc.data()!, doc.id);
-  }
-}
-
 class BannerRepository extends GetxController {
-  static BannerRepository get instance => Get.find();
+  //variable
+  final _db = FirebaseFirestore.instance;
 
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
-  /// Fetch all active banners
   Future<List<BannerModel>> fetchBanners() async {
     try {
-      final snapshot = await _db
-          .collection('banners')
-          .where('active', isEqualTo: true)
+      final result = await _db
+          .collection('Banners')
+          .where('Active', isEqualTo: true)
           .get();
-      return snapshot.docs.map((doc) => BannerModel.fromSnapshot(doc)).toList();
+
+      return result.docs
+          .map((documentSnapshot) => BannerModel.fromSnapshot(documentSnapshot))
+          .toList();
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
     } catch (e) {
-      throw 'Something went wrong while fetching promotional banners. Please try again.';
+      throw 'Something went wrong. Please try again.';
     }
   }
 }
