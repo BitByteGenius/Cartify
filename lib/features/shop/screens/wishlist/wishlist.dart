@@ -2,6 +2,7 @@ import 'package:cartify/common/widgets/appbar/appbar.dart';
 import 'package:cartify/common/widgets/icons/t_circular_icon.dart';
 import 'package:cartify/common/widgets/layouts/grid_layout.dart';
 import 'package:cartify/common/widgets/products/products_cards/product_card_vertical.dart';
+import 'package:cartify/features/shop/models/product_model.dart';
 import 'package:cartify/features/shop/screens/home/widgets/home.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class FavouriteScreen extends StatelessWidget {
     body: SingleChildScrollView(
       child: Padding(padding: EdgeInsets.all(TSizes.defaultSpace),
       child: Column(children: [
-        TGridLayout(itemCount: 4, itemBuilder: (_, index)=> const TProductCardVertical()),
+        TGridLayout(itemCount: 4, itemBuilder: (_, index)=>  TProductCardVertical(product: ProductModel.empty(),)),
       ],),)
     ),
     );

@@ -1,5 +1,6 @@
 import 'package:cartify/common/widgets/layouts/grid_layout.dart';
 import 'package:cartify/common/widgets/products/products_cards/product_card_vertical.dart';
+import 'package:cartify/features/shop/models/product_model.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -23,7 +24,7 @@ class TShortableProducts extends StatelessWidget {
       ),
       const SizedBox(height: TSizes.spaceBtwSections),
       //Products
-      TGridLayout(itemCount: 8, itemBuilder: (_, index) => const TProductCardVertical())
+      TGridLayout(itemCount: 8, itemBuilder: (_, index) =>  TProductCardVertical(product: ProductModel.empty(),))
       ],
     );
   }

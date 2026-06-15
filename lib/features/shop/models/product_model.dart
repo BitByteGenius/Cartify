@@ -2,7 +2,6 @@ import 'package:cartify/features/shop/models/brand_model.dart';
 import 'package:cartify/features/shop/models/product_attributes_model.dart';
 import 'package:cartify/features/shop/models/product_variation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class ProductModel {
   String id;
@@ -20,26 +19,26 @@ class ProductModel {
   List<String>? images;
   String productType;
   List<ProductAttributeModel>? productAttributes;
-  List<ProductVariationModel> productVariations;
+  List<ProductVariationModel>? productVariations;
 
   ProductModel({
-    required this.id,
-    required this.title,
-    required this.stock,
-    required this.price,
-    required this.thumbnail,
-    required this.productType,
-    this.sku,
-    this.brand,
-    this.date,
-    this.images,
-    this.salePrice = 0.0,
-    this.isFeatured,
-    this.categoryId,
-    this.description,
-    this.productAttributes,
-    this.productVariations,
-  });
+  required this.id,
+  required this.title,
+  required this.stock,
+  required this.price,
+  required this.thumbnail,
+  required this.productType,
+  this.sku,
+  this.brand,
+  this.date,
+  this.images,
+  this.salePrice = 0.0,
+  this.isFeatured,
+  this.categoryId,
+  this.description,
+  this.productAttributes,
+  this.productVariations,
+});
 
   // Create Empty func for clean code
   static ProductModel empty() => ProductModel(
@@ -66,11 +65,12 @@ class ProductModel {
       'Brand': brand!.toJson(),
       'Description': description,
       'ProductType': productType,
-      'ProductType': productType,
       'ProductAttributes': productAttributes != null
           ? productAttributes!.map((e) => e.toJson()).toList()
           : [],
-      'ProductVariations': productVariations!.map((e) => e.toJson()).toList(),
+      'ProductVariations': productVariations != null
+          ? productVariations!.map((e) => e.toJson()).toList()
+          : [],
     };
   }
 
@@ -78,6 +78,7 @@ class ProductModel {
   factory ProductModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,
   ) {
+    if(document.data() == null) return ProductModel.empty();
     final data = document.data()!;
     return ProductModel(
       id: document.id,
@@ -91,10 +92,10 @@ class ProductModel {
       categoryId: data['CategoryId'] ?? '',
       description: data ['Description'] ?? '',
       productType: data['ProductType']?? '',
-      brand: : BrandModel.fromJson(data['Brand']),
+      brand: BrandModel.fromJson(data['Brand']),
       images: data['Images'] != null ? List <String>.from(data['Images']):[],
-      productAttributes: (data['ProductAttributes'] as List <dynamic>).map((e) => productAttributeModel.fromJson(e)).tolist(),
-      productVariations: (data['ProductVariations'] as List <dynamic>).map((e) => productVariationModel.fromJson(e)).tolist(),
+      productAttributes: (data['ProductAttributes'] as List <dynamic>).map((e) => ProductAttributeModel.fromJson(e)).toList(),
+      productVariations: (data['ProductVariations'] as List <dynamic>).map((e) => ProductVariationModel.fromJson(e)).toList(),
       );
   }
 

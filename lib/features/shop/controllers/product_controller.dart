@@ -1,107 +1,123 @@
-import 'package:cartify/common/widgets/login_singup/loaders/network_manager.dart';
+import 'package:cartify/common/widgets/login_singup/loaders/loader.dart';
 import 'package:cartify/data/repositories/product_repository.dart';
 import 'package:cartify/features/shop/models/product_model.dart';
-import 'package:cartify/utils/local_storage/hive_storage.dart';
+import 'package:cartify/utils/constants/enums.dart';
 import 'package:get/get.dart';
 
 class ProductController extends GetxController {
   static ProductController get instance => Get.find();
 
-  // Observables
   final isLoading = false.obs;
-  final featuredProducts = <ProductModel>[].obs;
-  final allProducts = <ProductModel>[].obs;
-  final searchResults = <ProductModel>[].obs;
-
-  final ProductRepository _productRepo = Get.put(ProductRepository());
+  final productRepository = Get.put(ProductRepository());
+  RxList<ProductModel> featuredProducts = <ProductModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadFeaturedProducts();
+    fetchFeaturedProducts();
   }
 
-  /// Load featured products with offline fallback
-  Future<void> loadFeaturedProducts() async {
+  void fetchFeaturedProducts() async {
     try {
       isLoading.value = true;
 
-      // 1. Try reading from Hive local storage first (Offline Support)
-      final localData = THiveStorage.getCachedProducts();
-      if (localData.isNotEmpty) {
-        featuredProducts.assignAll(
-          localData.map((json) => ProductModel.fromJson(json, json['id'] ?? '')).toList(),
-        );
-      }
+      //Fetch product
+      final products = await productRepository.getFeaturedProducts();
 
-      // 2. If online, fetch fresh products from Firestore and update cache
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (isConnected) {
-        final products = await _productRepo.getFeaturedProducts();
-        featuredProducts.assignAll(products);
-
-        // Save fresh data to Hive
-        final productsJson = products.map((p) {
-          final json = p.toJson();
-          json['id'] = p.id;
-          return json;
-        }).toList();
-        await THiveStorage.saveCachedProducts(productsJson);
-      }
+      //assign products
+      featuredProducts.assignAll(products);
     } catch (e) {
-      // Keep using cached products if fetch fails
+      TLoaders.warningSnackBar(title: 'OhSnap', message: e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
-  /// Fetch all products for shop list
-  Future<void> fetchAllProducts() async {
-    try {
-      isLoading.value = true;
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (isConnected) {
-        final products = await _productRepo.getAllProducts();
-        allProducts.assignAll(products);
+  //Get the product price or price range
+  /* String getProductPrice(ProductModel product) {
+    double smallestprice = double.infinity;
+    double largestprice = 0.0;
+
+    // If no variation exist return the simple price or sale price
+    if (product.productType == ProductType.single.toString()) {
+      return (product.salePrice > 0 ? product.salePrice : product.price)
+          .toString();
+    } else{
+
+      //Calculate the smallest and largest price from the product variations
+      for (var variation in product.productVariations!) {
+        //Determine the price to use (sale price or regular price)
+        double priceToConsider = variation.salePrice > 0.0
+            ? variation.salePrice
+            : variation.price;
+
+        //Update the smallest and largest price accordingly
+        if (priceToConsider < smallestprice) {
+          smallestprice = priceToConsider;
+        }
+        if (priceToConsider > largestprice) {
+          largestprice = priceToConsider;
+        }
       }
-    } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
-    } finally {
-      isLoading.value = false;
+      // If smallest and largest price are the same, return that price
+      if (smallestprice.isEqual((largestprice))) {
+        return largestprice.toString();
+      } else {
+        // Return the price range
+        return '$smallestprice - \$largestprice';
+      }
+    }
+  }*/
+  /// Get the product price or price range
+  String getProductPrice(ProductModel product) {
+    double smallestprice = double.infinity;
+    double largestprice = 0.0;
+
+    // If no variations exist, return the sale price if available,
+    // otherwise return the regular price.
+    if (product.productType == ProductType.single.toString()) {
+      return ((product.salePrice ?? 0) > 0 ? product.salePrice! : product.price)
+          .toString();
+    } else {
+      // Calculate the smallest and largest price from the product variations
+      for (var variation in product.productVariations!) {
+        // Determine which price to use (sale price or regular price)
+        double priceToConsider = variation.salePrice > 0.0
+            ? variation.salePrice
+            : variation.price;
+
+        // Update the smallest price
+        if (priceToConsider < smallestprice) {
+          smallestprice = priceToConsider;
+        }
+
+        // Update the largest price
+        if (priceToConsider > largestprice) {
+          largestprice = priceToConsider;
+        }
+      }
+
+      // If both prices are the same, return a single price
+      if (smallestprice == largestprice) {
+        return largestprice.toString();
+      } else {
+        // Return the price range
+        return '$smallestprice - $largestprice';
+      }
     }
   }
 
-  /// Fetch products for specific category
-  Future<List<ProductModel>> fetchCategoryProducts(String categoryId) async {
-    try {
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (isConnected) {
-        return await _productRepo.getProductsForCategory(categoryId);
-      }
-      return [];
-    } catch (e) {
-      return [];
-    }
+  //--- Calculate the discount percentage for a product
+  String? calculateSalePercentage(double originalPrice, double? salePrice) {
+    if (salePrice == null || salePrice <= 0.0) return null;
+    if (originalPrice <= 0.0) return null;
+
+    double percentage = ((originalPrice - salePrice) / originalPrice) * 100;
+    return percentage.toStringAsFixed(0);
   }
 
-  /// Perform case-insensitive search
-  Future<void> performSearch(String query) async {
-    try {
-      isLoading.value = true;
-      if (query.isEmpty) {
-        searchResults.clear();
-        return;
-      }
-      
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (isConnected) {
-        final results = await _productRepo.searchProducts(query);
-        searchResults.assignAll(results);
-      }
-    } catch (e) {
-      searchResults.clear();
-    } finally {
-      isLoading.value = false;
-    }
+  // --- Check Product Stock Availability
+  String getProductStockStatus(int stock){
+    return stock > 0 ?'In Stock' : 'Out of Stock';
   }
 }
