@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        flutter-version: [3.22.0]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.flutter-version }}
+      - name: Install dependencies (Flutter)
+        run: flutter pub get
+        working-directory: admin_panel
+      - name: Install dependencies (Functions)
+        run: npm ci
+        working-directory: functions
+      - name: Lint Functions
+        run: npm run lint
+        working-directory: functions
+      - name: Run Flutter tests
+        run: flutter test
+        working-directory: admin_panel
+      # Optional deploy steps (uncomment if you want auto‑deploy)
+      # - name: Deploy Firebase Functions
+      #   env:
+      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #   run: firebase deploy --only functions
+      # - name: Deploy Flutter web to Firebase Hosting
+      #   env:
+      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #   run: |
+      #     flutter build web
+      #     firebase deploy --only hosting

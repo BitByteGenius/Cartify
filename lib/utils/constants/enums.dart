@@ -1,12 +1,18 @@
 //List of dart
 // They cannot be created inside the class
+enum ProductType{
+  single,
+  variable,
+}
+
+
 enum TextSizes {
   small,
   medium,
   large,
 }
 
-enum orderStatus {
+enum OrderStatus {
   pending,
   processing,
   shipped,

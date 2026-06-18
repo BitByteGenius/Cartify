@@ -19,6 +19,12 @@ class TColors {
     ],
   );
 
+  // App surface color
+  static const Color appSurface =Color(0xFF4A6CF7);
+
+  // Dashboard Specific Colors
+  static const Color dashboardAppbarBackground = Color(0xFF4b68ff);
+
   // Text Colors
   static const Color textPrimary = Color(0xFF333333);
   static const Color textSecondary = Color(0xFF6C7570);
@@ -31,12 +37,12 @@ class TColors {
 
   //Background Container Colors
   static const Color lightContainer = Color(0xFFF6F6F6);
-  static Color darkContainer = TColors.textWhite.withOpacity(0.1);
+  static Color darkContainer = TColors.textWhite.withValues(alpha: 0.1);
 
   //Button colors
   static const Color buttonPrimary = Color(0xFF4b68ff);
   static const Color buttonSecondary = Color(0xFF6C7570);
-  static const Color buttonDisabled = Color(0xffc4c4c4c);
+  static const Color buttonDisabled = Color(0xffc4c4c4);
 
   //Border Colors
   static const Color borderPrimary = Color(0xFFD9D9D9);
@@ -45,15 +51,14 @@ class TColors {
   //Errors and Validation Colors
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);
-  static const Color Warning = Color(0xFFF57C00);
+  static const Color warning = Color(0xFFF57C00);
   static const Color info = Color(0xFF1976D2);
 
   //Neutral Colors
   static const Color black = Color(0xFF232323);
   static const Color darkerGrey = Color(0xFF4F4F4F);
   static const Color darkGrey = Color(0xFF939393);
-  static const Color grey = Color(0xFF0E0E0E);
-  static const Color lightGrey = Color(0xFFC4C4C4);
+  static const Color grey = Color(0xFF9E9E9E); 
   static const Color softgrey = Color(0xFFF4F4F4);
   static const Color white = Colors.white;
 }

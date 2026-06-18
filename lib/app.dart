@@ -1,4 +1,6 @@
-import 'package:cartify/features/authentication/screens/Onboarding/onboarding.dart';
+import 'package:cartify/bindings/general_bindings.dart';
+import 'package:cartify/routes/app_routes.dart';
+import 'package:cartify/utils/constants/colors.dart';
 import 'package:cartify/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,17 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
-      home: OnboardingScreen(), // minimal fix
+      initialBinding: GeneralBindings(),
+      getPages: AppRoutes.pages,
+      home: const Scaffold (
+        backgroundColor: TColors.primary,
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.white,),
+        ),
+      )
+       /* child: OnboardingScreen()
+        ), 
+        )// minimal fix*/
     );
   }
 }

@@ -12,14 +12,17 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+    
       padding: const EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
+        
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          
           Image(
-            alignment: AlignmentGeometry.topCenter,
-            width: THelperFunction.screenHeight() * 0.8,
-            height: THelperFunction.screenWidth() * 0.6,
+            alignment: Alignment.center,
+            width: THelperFunction.screenWidth() * 0.8,
+            height: THelperFunction.screenHeight() * 0.4,
             image: AssetImage(image),
           ),
           Text(

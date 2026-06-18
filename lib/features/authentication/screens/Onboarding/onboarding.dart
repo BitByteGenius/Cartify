@@ -7,7 +7,7 @@ import 'package:cartify/utils/constants/text_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:cartify/features/authentication/controllers.onboarding/onboarding_controller.dart';
+import 'package:cartify/features/authentication/controllers/onboarding/onboarding_controller.dart';
 
 
 class OnboardingScreen extends StatelessWidget {
@@ -17,6 +17,7 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
      final controller = Get.put(OnBoardingController());
     return Scaffold(
+      backgroundColor: Colors.teal,
       body: Stack(
         children: [
           //Horizontal Scrollable Pages

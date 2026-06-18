@@ -1,4 +1,4 @@
-import 'package:cartify/features/authentication/controllers.onboarding/onboarding_controller.dart';
+import 'package:cartify/features/authentication/controllers/onboarding/onboarding_controller.dart';
 import 'package:cartify/utils/constants/sizes.dart';
 import 'package:cartify/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,6 @@ class OnBoardingSkip extends StatelessWidget {
     return Positioned(top: TDeviceUtils.getAppBarHeight(), right: TSizes.defaultSpace, 
     child: TextButton(
       onPressed: () => OnBoardingController.instance.skipPage(),
-      child: const Text('Skip'),));
+      child: const Text('Skip', style: TextStyle(fontWeight: FontWeight.bold)),),);
   }
 }
